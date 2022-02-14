@@ -5,17 +5,27 @@ const hrSchema=new Schema({
     name: String,
     email: {
         type:String,
-        unique:true
+        unique:true,
+        required: true
     },
     companyId:{
         type: Schema.Types.ObjectId,
         ref:'Company'
     },
     contact: {
-        countryCode: String,
-        mobileNumber: String
+        countryCode: {
+            type: String,
+            required: true
+        },
+        mobileNumber: {
+            type: String,
+            required: true
+        }
     },
-    designation: String
+    designation: {
+        type: String,
+        required: true
+    }
 })
 
 

@@ -2,35 +2,104 @@ const mongoose=require('mongoose');
 const Schema=mongoose.Schema;
 
 const infSchema=new Schema({
-    nameOfTheCompany: String,
-    sector: String,
+    nameOfTheCompany: {
+        type: String,
+        required: true
+    },
+    sector: {
+        type: String,
+        required: true
+    },
     companyId:{
         type: Schema.Types.ObjectId,
         ref:'Company'
     },
-    website: String,
-    duration:String,
-    description: String,
-    designation: String, 
-    mode: String,
-    placeOfPosting: String,
-    btechStudents: [{String}],
-    fiveYrsStudents: [{String}],
-    skillBasedStudents: [{String}],
-    mscStudents: [{String}],
-    msctechStudents: [{String}],
-    mtechStudents: [{String}],
-    mbaStudents: [{String}],
-    shortlistFromResumes:Boolean,
+    website: {
+        type: String,
+        required: true
+    },
+    duration:{
+        type: String,
+        required: true
+    },
+    description: {
+        type: String,
+        required: true
+    },
+    designation: {
+        type: String,
+        required: true
+    }, 
+    mode: {
+        type: String,
+        required: true
+    },
+    placeOfPosting: {
+        type: String,
+        required: true
+    },
+    btechStudents: {
+        type: [String],
+        required: true
+    },
+    fiveYrsStudents: {
+        type: [String],
+        required: true
+    },
+    skillBasedStudents: {
+        type: [String],
+        required: true
+    },
+    mscStudents: {
+        type: [String],
+        required: true
+    },
+    msctechStudents: {
+        type: [String],
+        required: true
+    },
+    mtechStudents: {
+        type: [String],
+        required: true
+    },
+    mbaStudents: {
+        type: [String],
+        required: true
+    },
+    shortlistFromResumes:{
+        type: Boolean,
+        required: true
+    },
     eligibilityCriteria: String,
     typeOfTest: String, 
-    otherRounds: [{String}],
-    totalRounds: int,
-    numberOfOffers: int,
-    stipend: String,
-    provisionForPPO: Boolean,
-    ctcDetails: String,
-    documents: [{String}],
+    otherRounds: {
+        type: [String],
+        required: true
+    },
+    totalRounds: {
+        type: Number,
+        required: true
+    },
+    numberOfOffers: {
+        type: Number,
+        required: true
+    },
+    stipend: {
+        type: String,
+        required: true
+    },
+    provisionForPPO: {
+        type: Boolean,
+        required: true
+    },
+    ctcDetails: {
+        type: String,
+        required: true
+    },
+    documents: {
+        type: [String],
+        required: true
+    },
 })
 
 
