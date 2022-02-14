@@ -4,8 +4,8 @@
   const mongoose = require("mongoose");
   const morgan = require("morgan");
   const cors = require("cors");
-  const Company=require("./src/models/company.model.js");
   const debug = require("debug")("server");
+  const debug_database = require("debug")("mongoDB");
 
   const app = express();
 
@@ -13,18 +13,19 @@
   const appName = process.env.APP_NAME || "Indulge Backend";
   const api = process.env.API_RELATIVE || "/api/v1";
 
-  const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/indulge-backend-1';
+  const dbUrl =
+    process.env.DB_URL || "mongodb://localhost:27017/indulge-backend-1";
 
   mongoose.connect(dbUrl, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
   });
 
-const db = mongoose.connection;
-db.on("error", console.error.bind(console, "connection error:"));
-db.once("open", () => {
-    console.log("Database connected");
-});
+  const db = mongoose.connection;
+  db.on("error", console.error.bind(console, "connection error:"));
+  db.once("open", () => {
+    debug_database("Database connected");
+  });
 
   debug("Booting %s", appName);
 
@@ -35,7 +36,7 @@ db.once("open", () => {
 
   app.get("/", (req, res) => {
     res.send(["HUH?"]);
-  }); 
+  });
 
   app.listen(PORT, () => debug("Server is running at %s", PORT));
 })();
