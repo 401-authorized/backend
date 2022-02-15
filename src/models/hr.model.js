@@ -1,16 +1,8 @@
 const mongoose = require("mongoose");
+const UserSchema = require("./user.schema");
 const Schema = mongoose.Schema;
 
 const hrSchema = new Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    unique: true,
-    required: true,
-  },
   companyId: {
     type: Schema.Types.ObjectId,
     ref: "Company",
@@ -30,5 +22,6 @@ const hrSchema = new Schema({
     required: true,
   },
 });
+hrSchema.add(UserSchema);
 
 module.exports = mongoose.model("Hr", hrSchema);
