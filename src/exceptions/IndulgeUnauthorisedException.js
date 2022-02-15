@@ -12,3 +12,5 @@ class IndulgeUnauthorisedException extends IndulgeBaseException {
     });
   }
 }
+
+module.exports = IndulgeUnauthorisedException;
