@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Admin = require("../models/admin.model");
 const Hr = require("../models/hr.model");
-const IndulgeUnauthorisedException = require("../exceptions/indulgeUnauthorised.exception");
+const IndulgeUnauthorisedException = require("../exceptions/indulgeUnauthorisedException");
 const IndulgeBaseException = require("../core/IndulgeBaseException");
 const IndulgeBadRequestException = require("../exceptions/IndulgeBadRequestException");
 const IndulgeExceptionHandler = require("../core/IndulgeExceptionHandler");
@@ -43,7 +43,7 @@ const hash = async (password) => {
 const verifyHash = async (password, hash) => {
   try {
     return await bcrypt.compare(password, hash);
-  } catch (e) {
+  } catch (err) {
     throw new IndulgeBaseException(err);
   }
 };
@@ -58,7 +58,7 @@ const generateJWT = (user) => {
         adm: user instanceof Admin ? true : false,
       },
       process.env.SECRET_KEY || "secret",
-      { expires: process.env.JWT_VALIDITY || "30d" }
+      { expiresIn: process.env.JWT_VALIDITY || "30d" }
     );
   } catch (err) {
     throw new IndulgeBaseException(err);

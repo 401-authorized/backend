@@ -1,3 +1,5 @@
+const invitationModel = require("./src/models/invitation.model");
+
 (async function (port, callback) {
   const { join } = require("path");
   const express = require("express");
@@ -13,6 +15,9 @@
   const appName = process.env.APP_NAME || "Indulge Backend";
   const api = process.env.API_RELATIVE || "/api/v1";
 
+  const hrRoutes=require('./src/routes/hr.route');
+  const invitationRoutes=require('./src/routes/invitation.route');
+  const infRoutes=require('./src/routes/inf.route');
   const dbUrl =
     process.env.DB_URL || "mongodb://localhost:27017/indulge-backend-1";
 
@@ -34,6 +39,9 @@
   app.use(express.urlencoded({ extended: false }));
   app.use(morgan("dev"));
 
+  app.use("/hr", hrRoutes);
+  app.use("/inf", infRoutes);
+  app.use("/invitation", invitationRoutes);
   app.get("/", (req, res) => {
     res.send(["HUH?"]);
   });
