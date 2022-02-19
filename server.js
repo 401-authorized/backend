@@ -6,7 +6,7 @@
   const cors = require("cors");
   const debug = require("debug")("server");
   const debug_database = require("debug")("mongoDB");
-
+  const hr = require("./src/models/hr.model");
   const app = express();
 
   const PORT = port || process.env.PORT || 8080;
@@ -34,9 +34,7 @@
   app.use(express.urlencoded({ extended: false }));
   app.use(morgan("dev"));
 
-  app.get("/", (req, res) => {
-    res.send(["HUH?"]);
-  });
+  app.use(`${api}`, require("./src/routes/index"));
 
   app.listen(PORT, () => debug("Server is running at %s", PORT));
 })();
