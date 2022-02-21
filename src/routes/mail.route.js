@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
     await sendMail(
       templates.REGISTRATION,
       { verify_url: "https://google.com" },
-      "kushakjafry1@gmail.com"
+      "tanwirahmad2912@gmail.com"
     );
     res.status(200).json("email send");
   } catch (err) {

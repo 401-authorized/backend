@@ -4,10 +4,12 @@ const oauthRouter = require("./oauth.route");
 const mailRouter = require("./mail.route");
 const hrRouter = require("./hr.route");
 const invitationRouter = require("./invitation.route");
+const companyRouter = require("./company.route");
 router.use("/inf", infRouter);
 router.use("/oauth", oauthRouter);
 router.use("/mail", mailRouter);
 router.use("/hr", hrRouter);
 router.use("/invitation", invitationRouter);
+router.use("/company", companyRouter);
 
 module.exports = router;

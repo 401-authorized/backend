@@ -21,9 +21,11 @@ const invitationModel = require("./src/models/invitation.model");
   const dbUrl =
     process.env.DB_URL || "mongodb://localhost:27017/indulge-backend-1";
 
+
+
   mongoose.connect(dbUrl, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+  useUnifiedTopology: true,
+	useNewUrlParser: true,
   });
 
   const db = mongoose.connection;

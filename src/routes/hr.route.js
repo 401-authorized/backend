@@ -63,8 +63,8 @@ router.get('/register/:hash',async(req,res)=>{
 })
 
 router.post('/register',async(req,res)=>{
-    const hash = await auth.hash(req.body.password);
-    req.body.password = hash;
+   const hash = await auth.hash(req.body.password);
+   req.body.password = hash;
     const newHr = new HR(req.body);
     await newHr.save();
     res.json(newHr);

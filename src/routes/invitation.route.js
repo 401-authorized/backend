@@ -21,10 +21,6 @@ const generateJWT = (company) => {
 router.post('/', async(req, res)=>{
     const {companyName} =req.body;
     let company=await Company.findOne({name:companyName});
-    if (!company){
-        company=new Company({name:companyName});
-        await company.save();
-    }
     const token=generateJWT(company);
 	const newInvitation= new Invitation({
 		companyId: company._id,
