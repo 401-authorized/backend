@@ -14,14 +14,7 @@ const invitationModel = require("./src/models/invitation.model");
   const PORT = port || process.env.PORT || 8080;
   const appName = process.env.APP_NAME || "Indulge Backend";
   const api = process.env.API_RELATIVE || "/api/v1";
-
-  const hrRoutes=require('./src/routes/hr.route');
-  const invitationRoutes=require('./src/routes/invitation.route');
-  const infRoutes=require('./src/routes/inf.route');
-  const dbUrl =
-    process.env.DB_URL || "mongodb://localhost:27017/indulge-backend-1";
-
-
+  const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/indulge-backend-1";
 
   mongoose.connect(dbUrl, {
   useUnifiedTopology: true,

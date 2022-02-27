@@ -1,25 +1,69 @@
 const router = require("express").Router();
+const IndulgeBaseException = require("../core/IndulgeBaseException");
 const { QueryBuilder } = require("../helpers/query-builder.class");
-const InfModel = require("../models/inf.model");
+const INF = require("../models/inf.model");
+const auth=require('../utils/auth');
+
 
 // Example use case for QUeryBuilder class for using sort, limit, filter and paginate
-router.get("/", async (req, res) => {
+router.get("/", async (req, res) => { // auth.authenticate should be added
   try{
-    const queryBuilder = new QueryBuilder(InfModel.find(), req.query);
-    const infs = await queryBuilder.execAll().query.populate('hrId');
-    res.json(infs);
+    // if(req.role==="admin")
+    // {
+    // const queryBuilder = new QueryBuilder(INF.find(), req.query);
+    // const infs = await queryBuilder.execAll().query.populate('hrId');
+    // res.json(infs);
+    // }
+    // else{
+      const infs = await INF.find({}); // should be changed to that particular user
+      if(infs)
+      {
+        res.send({
+          success : true,
+          infs
+        })
+      }
+      res.send({success:false})
+    // }
   }catch(err){
     res.status(500).send(err);
   }
 });
 
-router.post('/',async(req,res)=>{
+router.post('/',auth.authenticate,async(req,res)=>{
   try{
-    const newInf = new InfModel(req.body);
+    const newInf=new INF(req.body);
     await newInf.save();
     res.json(newInf);
   }catch(err){
-    res.status(500).json(err);
+    throw IndulgeBaseException(err);
+  }
+})
+
+router.put('/:id',auth.authenticate,async(req,res)=>{
+  try{
+    const {id}=req.params;
+    await INF.findByIdAndUpdate(id, req.body);
+    res.send({success:true});
+  }catch(err){
+    throw IndulgeBaseException(err);
+  }
+})
+
+router.get('/:id', async(req, res)=>{ // auth.authenticate should be added
+  try{
+    const {id}=req.params;
+    const inf=await INF.findById(id);
+    if (inf){
+      res.send({
+        success:true,
+        inf
+      })
+    }else{
+      res.send({success:false});
+    }
+  }catch(err){
+    res.status(500).send({success:false});
   }
 })
 
