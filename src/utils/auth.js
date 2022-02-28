@@ -161,6 +161,29 @@ const verifyAdmin = async (req, res, next) => {
   }
 };
 
+const verifyInvitation= async(req, res, next)=>{
+  try {
+    const { hash } = req.params;
+    if (!hash) hash=req.body.hash;
+    const curInvitation = await Invitation.findOne({ token: hash });
+    if (curInvitation) {
+      let { token } = curInvitation;
+      let decoded;
+      try {
+        decoded = auth.verifyJWT(token);
+      } catch (err) {
+        throw new IndulgeBadRequestException({message:"Invitation Expired"});
+      }
+    } else {
+        throw new IndulgeBadRequestException({message:"Invitation not found"});
+    }
+    next();
+  } catch (err) {
+    const e=new IndulgeExceptionHandler(err);
+    res.status(e.code).send(err);
+  }
+};
+// const isHr
 module.exports = {
   hash,
   verifyHash,
@@ -172,4 +195,5 @@ module.exports = {
   authenticate,
   verifyAdmin,
   typeMapping,
+  verifyInvitation
 };

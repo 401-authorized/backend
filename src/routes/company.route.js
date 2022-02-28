@@ -8,47 +8,27 @@ const IndulgeBadRequestException = require("../exceptions/IndulgeBadRequestExcep
 const IndulgeUnauthorisedException = require("../exceptions/indulgeUnauthorisedException");
 const router = express.Router();
 
-router.get("/", auth.authenticate, async (req, res) => {
+router.get("/", auth.authenticate, auth.verifyAdmin, async (req, res) => {
   try {
-    if (req.role === "admin") {
-      const { quer } = req.query;
-      if (!quer) {
-        const companies = await Company.find({});
-        res.send(companies);
-        return;
-      }
-      const opt = new RegExp(`^${quer}`);
-      const companies = await Company.find({
-        name: { $regex: opt, $options: "i" },
-      });
-      res.send(companies);
-    } else {
-      res.status(401).send({ success: false });
-    }
-  } catch (err) {
-    throw new IndulgeBaseException(err);
-  }
-});
-
-router.get("/index", auth.authenticate, async (req, res) => {
-  if (req.role === "admin") {
-    try {
+    const { quer } = req.query;
+    if (!quer) {
       const companies = await Company.find({});
-      res.send({
-        success: true,
-        companies,
-      });
-    } catch (err) {
-      throw new IndulgeBaseException(err);
+      res.send(companies);
+      return;
     }
+    const opt = new RegExp(`^${quer}`);
+    const companies = await Company.find({
+      name: { $regex: opt, $options: "i" },
+    });
+    res.send(companies);
+  } catch (err) {
+    const e=new IndulgeExceptionHandler(err);
+    res.status(e.code).send(err);
   }
-  res.send({
-    success: false,
-  });
 });
 
-router.put("/:id", auth.authenticate, async (req, res) => {
-  if (req.role === "admin") {
+
+router.put("/:id", auth.authenticate, auth.verifyAdmin, async (req, res) => {
     try {
       const { id } = req.params;
       await Company.findByIdAndUpdate(id, { name: req.body.name });
@@ -56,22 +36,20 @@ router.put("/:id", auth.authenticate, async (req, res) => {
         success: true,
       });
     } catch (err) {
-      throw new IndulgeBaseException(err);
+      const e=new IndulgeExceptionHandler(err);
+      res.status(e.code).send(err);
     }
-  }
-  res.send({
-    success: false,
-  });
 });
 
-router.post("/", async (req, res) => {
+router.post("/", auth.authenticate, auth.verifyAdmin, async (req, res) => {
   try {
     const { name } = req.body;
     const newCompany = new Company({ name });
     await newCompany.save();
     res.send(newCompany);
   } catch (err) {
-    throw new IndulgeBaseException(err);
+    const e=new IndulgeExceptionHandler(err);
+    res.status(e.code).send(err);
   }
 });
 module.exports = router;

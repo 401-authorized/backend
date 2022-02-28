@@ -1,7 +1,7 @@
 const { BAD_REQUEST } = require("../../config/constants/http.config");
 const IndulgeBaseException = require("../core/IndulgeBaseException");
 
-class IndulgeValidationException extends IndulgeBaseExceptionn {
+class IndulgeValidationException extends IndulgeBaseException {
   constructor({ message, name, errors }) {
     super({
       message: message || "Some validation error occurred.",

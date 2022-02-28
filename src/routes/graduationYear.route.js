@@ -1,21 +1,27 @@
 const router = require("express").Router();
 const Grad = require("../models/graduationYear.model");
 const IndulgeBaseException = require("../core/IndulgeBaseException");
+const auth=require("../utils/auth");
 
-router.put("/", async (req, res) => {
+router.put("/", auth.authenticate, auth.verifyAdmin, async (req, res) => {
   try {
-    await Grad.findOneAndUpdate(req.body);
+    let one=await Grad.find({});
+    one=one[0];
+    const id=one._id;
+    await Grad.findByIdAndUpdate(id, req.body);
     res.send({ success: true });
   } catch (err) {
-    throw new IndulgeBaseException(err);
+    const e=new IndulgeExceptionHandler(err);
+    res.status(e.code).send(err);
   }
 });
-router.get("/", async (req, res) => {
+router.get("/", auth.authenticate, auth.verifyAdmin, async (req, res) => {
   try {
     const result = Grad.findOne({});
     res.send(result);
   } catch (err) {
-    throw new IndulgeBaseException(err);
+    const e=new IndulgeExceptionHandler(err);
+    res.status(e.code).send(err);
   }
 });
 

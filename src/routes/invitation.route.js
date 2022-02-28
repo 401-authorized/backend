@@ -3,6 +3,7 @@ const Company = require("../models/company.model");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
 const Invitation = require("../models/invitation.model");
+const auth =require("../utils/auth");
 
 const generateJWT = (company) => {
   try {
@@ -15,11 +16,12 @@ const generateJWT = (company) => {
       { expiresIn: process.env.JWT_VALIDITY || "360s" }
     );
   } catch (err) {
-    throw new IndulgeBaseException(err);
+    const e=new IndulgeExceptionHandler(err);
+    res.status(e.code).send(err);
   }
 };
 
-router.post("/", async (req, res) => {
+router.post("/", auth.authenticate,auth.verifyAdmin, async (req, res) => {
   try {
     const { companyName } = req.body;
     const company = await Company.findOne({ name: companyName });
@@ -31,7 +33,8 @@ router.post("/", async (req, res) => {
     await newInvitation.save();
     res.send({ company });
   } catch (err) {
-    throw new IndulgeBaseException(err);
+    const e=new IndulgeExceptionHandler(err);
+    res.status(e.code).send(err);
   }
 });
 module.exports = router;

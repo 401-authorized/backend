@@ -4,6 +4,8 @@ const Admin = require("../models/admin.model");
 const IndulgeBaseException = require("../core/IndulgeBaseException");
 const IndulgeBadRequestException = require("../exceptions/IndulgeBadRequestException");
 const IndulgeUnauthorisedException = require("../exceptions/indulgeUnauthorisedException");
+const IndulgeValidationException = require("../exceptions/IndulgeValidationException");
+const IndulgeExceptionHandler = require("../core/IndulgeExceptionHandler");
 const router = express.Router();
 
 router.post("/login", async (req, res) => {
@@ -11,10 +13,7 @@ router.post("/login", async (req, res) => {
     const { email, password } = req.body;
     const user = await Admin.findOne({ email });
     if (!user) {
-      res.send({
-        success: false,
-      });
-      return;
+      throw new IndulgeUnauthorisedException({message:"Invalid email or password"});
     }
     const result = await auth.verifyHash(password, user.password);
     if (!result) {
@@ -23,12 +22,11 @@ router.post("/login", async (req, res) => {
         token: auth.generateJWT(user),
       });
     } else {
-      res.send({
-        success: false,
-      });
+        throw new IndulgeUnauthorisedException({message:"Invalid email or password"});
     }
   } catch (err) {
-    throw new IndulgeBaseException(err);
+    const e=new IndulgeExceptionHandler(err);
+    res.status(e.code).send(err);
   }
 });
 
@@ -40,7 +38,8 @@ router.post("/register", async (req, res) => {
     await newAdmin.save();
     res.json(newAdmin);
   } catch (err) {
-    throw new IndulgeBaseException(err);
+    const e=new IndulgeExceptionHandler(err);
+    res.status(e.code).send(err);
   }
 });
 
@@ -55,11 +54,9 @@ router.put("/", auth.authenticate, async (req, res) => {
       success: true,
     });
   } catch (err) {
-    throw new IndulgeBaseException(err);
+    const e=new IndulgeExceptionHandler(err);
+    res.status(e.code).send(err);
   }
-  res.send({
-    success: false,
-  });
 });
 
 router.get("/:id", auth.authenticate, async (req, res) => {
@@ -72,12 +69,11 @@ router.get("/:id", auth.authenticate, async (req, res) => {
         admin,
       });
     } else {
-      res.send({
-        success: false,
-      });
+      throw new IndulgeUnauthorisedException({message:"Unauthorised"});
     }
   } catch (err) {
-    throw new IndulgeBaseException(err);
+    const e=new IndulgeExceptionHandler(err);
+    res.status(e.code).send(err);
   }
 });
 

@@ -7,29 +7,26 @@ router.get("/", auth.authenticate, async (req, res) => {
   try {
     if (req.role === "admin") {
       const queryBuilder = new QueryBuilder(JNF.find(), req.query);
-      const infs = await queryBuilder.execAll().query.populate("hrId");
-      res.json(infs);
+      const jnfs = await queryBuilder.execAll().query.populate("hrId");
+      res.json(jnfs);
     } else {
-      const jnfs = await JNF.find({}); // should be changed to that particular user
-      if (jnfs) {
-        res.send({
-          success: true,
-          jnfs,
-        });
-      }
-      res.send({ success: false });
+      const jnfs = await JNF.find({hrId: req.user._id});
+      res.json(jnfs);
     }
   } catch (err) {
-    res.status(500).send(err);
+    const e=new IndulgeExceptionHandler(err);
+    res.status(e.code).send(err);
   }
 });
 router.post("/", auth.authenticate, async (req, res) => {
   try {
-    const newJnf = new JNF(req.body);
+    let newJnf = new JNF(req.body);
+    newJnf.hrId=req.user._id;
     await newJnf.save();
     res.json(newJnf);
   } catch (err) {
-    res.status(500).json(err);
+    const e=new IndulgeExceptionHandler(err);
+    res.status(e.code).send(err);
   }
 });
 router.put("/:id", auth.authenticate, async (req, res) => {
@@ -38,25 +35,30 @@ router.put("/:id", auth.authenticate, async (req, res) => {
     await JNF.findByIdAndUpdate(id, req.body);
     res.send({ success: true });
   } catch (err) {
-    throw IndulgeBaseException(err);
+    const e=new IndulgeExceptionHandler(err);
+    res.status(e.code).send(err);
   }
 });
 
 router.get("/:id", auth.authenticate, async (req, res) => {
-  // auth.authenticate should be added
   try {
     const { id } = req.params;
     const jnf = await JNF.findById(id);
-    if (jnf) {
+    const userId = req.user._id;
+
+    if (jnf && (req.role === "admin" || userId === jnf.hrId)) {
       res.send({
         success: true,
-        inf,
+        jnf,
       });
-    } else {
-      res.send({ success: false });
+    } else if (!jnf){
+      throw new IndulgeResourceNotFoundException({message: "JNF Not Found"});
+    }else{
+      throw new IndulgeUnauthorisedException({message: "Unauthorised"});
     }
   } catch (err) {
-    res.status(500).send({ success: false });
+    const e=new IndulgeExceptionHandler(err);
+    res.status(e.code).send(err);
   }
 });
 module.exports = router;

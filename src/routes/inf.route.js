@@ -1,39 +1,37 @@
 const router = require("express").Router();
 const IndulgeBaseException = require("../core/IndulgeBaseException");
+const IndulgeResourceNotFoundException = require("../exceptions/IndulgeResourceNotFoundException");
+const IndulgeUnauthorisedException = require("../exceptions/indulgeUnauthorisedException");
 const { QueryBuilder } = require("../helpers/query-builder.class");
 const INF = require("../models/inf.model");
 const auth = require("../utils/auth");
 
 // Example use case for QUeryBuilder class for using sort, limit, filter and paginate
 router.get("/", auth.authenticate, async (req, res) => {
-  // auth.authenticate should be added
   try {
     if (req.role === "admin") {
       const queryBuilder = new QueryBuilder(INF.find(), req.query);
       const infs = await queryBuilder.execAll().query.populate("hrId");
       res.json(infs);
     } else {
-      const infs = await INF.find({ hrId: req.user._id }); // should be changed to that particular user
-      if (infs) {
-        res.send({
-          success: true,
-          infs,
-        });
-      }
-      res.send({ success: false });
+      const infs = await INF.find({ hrId: req.user._id });
+      res.json(infs);
     }
   } catch (err) {
-    res.status(500).send(err);
+    const e=new IndulgeExceptionHandler(err);
+    res.status(e.code).send(err);
   }
 });
 
 router.post("/", auth.authenticate, async (req, res) => {
   try {
-    const newInf = new INF(req.body);
+    let newInf = new INF(req.body);
+    newInf.hrId=req.user._id;
     await newInf.save();
     res.json(newInf);
   } catch (err) {
-    throw IndulgeBaseException(err);
+    const e=new IndulgeExceptionHandler(err);
+    res.status(e.code).send(err);
   }
 });
 
@@ -43,7 +41,8 @@ router.put("/:id", auth.authenticate, async (req, res) => {
     await INF.findByIdAndUpdate(id, req.body);
     res.send({ success: true });
   } catch (err) {
-    throw IndulgeBaseException(err);
+    const e=new IndulgeExceptionHandler(err);
+    res.status(e.code).send(err);
   }
 });
 
@@ -59,11 +58,14 @@ router.get("/:id", auth.authenticate, async (req, res) => {
         success: true,
         inf,
       });
-    } else {
-      res.send({ success: false });
+    } else if (!inf){
+      throw new IndulgeResourceNotFoundException({message: "INF Not Found"});
+    }else{
+      throw new IndulgeUnauthorisedException({message: "Unauthorised"});
     }
   } catch (err) {
-    res.status(500).send({ success: false });
+    const e=new IndulgeExceptionHandler(err);
+    res.status(e.code).send(err);
   }
 });
 
