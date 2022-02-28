@@ -1,8 +1,11 @@
 const router = require("express").Router();
 const IndulgeUnauthorisedException = require("../exceptions/indulgeUnauthorisedException");
+const IndulgeExceptionHandler = require("../core/IndulgeExceptionHandler");
 const { QueryBuilder } = require("../helpers/query-builder.class");
 const JNF = require("../models/jnf.model");
 const auth = require("../utils/auth");
+const {templates} = require("../utils/templates");
+const { sendMail } = require("../utils/mail");
 
 router.get("/", auth.authenticate, async (req, res) => {
   try {
@@ -25,6 +28,8 @@ router.post("/", auth.authenticate, async (req, res) => {
     newJnf.hrId=req.user._id;
     newJnf.companyId=req.user.companyId;
     await newJnf.save();
+    const url= `https://localhost:8080/api/v1/jnf/${newJnf._id}`;
+    await sendMail(templates.JNFSEND, {hrName:`${req.user.name}`, jnfUrl: url}, "tanwirahmad2912@gmail.com");
     res.json(newJnf);
   } catch (err) {
     const e = IndulgeExceptionHandler(err);
@@ -38,6 +43,8 @@ router.put("/:id", auth.authenticate, async (req, res) => {
     const jnf=await JNF.findById(id);
     if (userId.equals(jnf.hrId)){
       await JNF.findByIdAndUpdate(id, req.body);
+      const url= `https://localhost:8080/api/v1/jnf/${jnf._id}`;
+      await sendMail(templates.JNFUPDATE, {hrName:`${req.user.name}`, jnfUrl: url}, "tanwirahmad2912@gmail.com");
       res.send({ success: true });
     }else{
       throw new IndulgeUnauthorisedException({message: "Unauthorised"});

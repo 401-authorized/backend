@@ -14,7 +14,7 @@ class Template {
     try {
       return await ejs.renderFile(
         join(__dirname, "..", "resources", "templates", this.name + ".ejs"),
-        this.opts
+         this.opts
       );
     } catch (err) {
       throw new IndulgeResourceNotFoundException(this.name + ".ejs");
@@ -56,6 +56,18 @@ const templates = {
     name: "infSend",
     subject: "New INF created",
   },
+  INFUPDATE:{
+    name: "infUpdate",
+    subject : "INF Updated",
+  },
+  JNFSEND: {
+    name: "jnfSend",
+    subject: "New JNF created",
+  },
+  JNFUPDATE:{
+    name: "jnfUpdate",
+    subject : "JNF Updated",
+  }
 };
 
 module.exports = {

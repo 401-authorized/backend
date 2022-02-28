@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const jnfSchema = new Schema({
-  nameOfTheCompany: {
+  nameOfCompany: {
     type: String,
     required: true,
   },
@@ -12,7 +12,13 @@ const jnfSchema = new Schema({
   },
   companyId: {
     type: Schema.Types.ObjectId,
+    required:true,
     ref: "Company",
+  },
+  hrId: {
+    type: Schema.Types.ObjectId,
+    ref: "Hr",
+    required: true,
   },
   website: {
     type: String,
