@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const hrSchema = new Schema({
   companyId: {
     type: Schema.Types.ObjectId,
-    required:true,
+    required: true,
     ref: "Company",
   },
   contact: {

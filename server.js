@@ -14,11 +14,12 @@ const invitationModel = require("./src/models/invitation.model");
   const PORT = port || process.env.PORT || 8080;
   const appName = process.env.APP_NAME || "Indulge Backend";
   const api = process.env.API_RELATIVE || "/api/v1";
-  const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/indulge-backend-1";
+  const dbUrl =
+    process.env.DB_URL || "mongodb://localhost:27017/indulge-backend-1";
 
   mongoose.connect(dbUrl, {
-  useUnifiedTopology: true,
-	useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
   });
 
   const db = mongoose.connection;
@@ -34,9 +35,7 @@ const invitationModel = require("./src/models/invitation.model");
   app.use(express.urlencoded({ extended: false }));
   app.use(morgan("dev"));
 
-
   app.use(`${api}`, require("./src/routes/index"));
-
 
   app.listen(PORT, () => debug("Server is running at %s", PORT));
 })();

@@ -108,7 +108,7 @@ const infSchema = new Schema({
     type: String,
     required: true,
   },
-  documents: [String]
+  documents: [String],
 });
 
 module.exports = mongoose.model("INF", infSchema);

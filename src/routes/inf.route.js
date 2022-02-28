@@ -2,71 +2,69 @@ const router = require("express").Router();
 const IndulgeBaseException = require("../core/IndulgeBaseException");
 const { QueryBuilder } = require("../helpers/query-builder.class");
 const INF = require("../models/inf.model");
-const auth=require('../utils/auth');
-
+const auth = require("../utils/auth");
 
 // Example use case for QUeryBuilder class for using sort, limit, filter and paginate
-router.get("/", auth.authenticate, async (req, res) => { // auth.authenticate should be added
-  try{
-    if(req.role==="admin")
-    {
+router.get("/", auth.authenticate, async (req, res) => {
+  // auth.authenticate should be added
+  try {
+    if (req.role === "admin") {
       const queryBuilder = new QueryBuilder(INF.find(), req.query);
-      const infs = await queryBuilder.execAll().query.populate('hrId');
+      const infs = await queryBuilder.execAll().query.populate("hrId");
       res.json(infs);
-    }
-    else{
-      const infs = await INF.find({hrId:req.user._id}); // should be changed to that particular user
-      if(infs)
-      {
+    } else {
+      const infs = await INF.find({ hrId: req.user._id }); // should be changed to that particular user
+      if (infs) {
         res.send({
-          success : true,
-          infs
-        })
+          success: true,
+          infs,
+        });
       }
-      res.send({success:false})
+      res.send({ success: false });
     }
-  }catch(err){
+  } catch (err) {
     res.status(500).send(err);
   }
 });
 
-router.post('/',auth.authenticate,async(req,res)=>{
-  try{
-    const newInf=new INF(req.body);
+router.post("/", auth.authenticate, async (req, res) => {
+  try {
+    const newInf = new INF(req.body);
     await newInf.save();
     res.json(newInf);
-  }catch(err){
+  } catch (err) {
     throw IndulgeBaseException(err);
   }
-})
+});
 
-router.put('/:id',auth.authenticate,async(req,res)=>{
-  try{
-    const {id}=req.params;
+router.put("/:id", auth.authenticate, async (req, res) => {
+  try {
+    const { id } = req.params;
     await INF.findByIdAndUpdate(id, req.body);
-    res.send({success:true});
-  }catch(err){
+    res.send({ success: true });
+  } catch (err) {
     throw IndulgeBaseException(err);
   }
-})
+});
 
-router.get('/:id', auth.authenticate, async(req, res)=>{ // auth.authenticate should be added
-  try{
-    const {id}=req.params;
-    const inf=await INF.findById(id);
-    const userId=req.user._id;
+router.get("/:id", auth.authenticate, async (req, res) => {
+  // auth.authenticate should be added
+  try {
+    const { id } = req.params;
+    const inf = await INF.findById(id);
+    const userId = req.user._id;
 
-    if (inf && (req.role==="admin" || userId===inf.hrId)){
+    if (inf && (req.role === "admin" || userId === inf.hrId)) {
       res.send({
-        success:true,
-        inf
-      })
-    }else{
-      res.send({success:false});
+        success: true,
+        inf,
+      });
+    } else {
+      res.send({ success: false });
     }
-  }catch(err){
-    res.status(500).send({success:false});
+  } catch (err) {
+    res.status(500).send({ success: false });
   }
-})
+});
 
 module.exports = router;
