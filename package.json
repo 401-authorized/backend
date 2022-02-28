@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node_modules/.bin/env-cmd -f config/environment/.env nodemon server.js"
+    "dev": "env-cmd -f config/environment/.env nodemon server.js"
   },
   "author": "",
   "license": "ISC",

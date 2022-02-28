@@ -14,21 +14,24 @@ const generateJWT = (company) => {
         process.env.SECRET_KEY || "secret",
         { expiresIn: process.env.JWT_VALIDITY || "360s" }
       );
-    }   catch (err) {
-        throw new IndulgeBaseException(err);
+    } catch (err) {
+      throw new IndulgeBaseException(err);
     }
   };
+  
 router.post('/', async(req, res)=>{
-    const {companyName} =req.body;
-    let company=await Company.findOne({name:companyName});
-    const token=generateJWT(company);
-	const newInvitation= new Invitation({
-		companyId: company._id,
-		token
-	})
-	await newInvitation.save();
-  console.log(newInvitation.token)
-	// console.log(company);
-	res.send({company});
+    try{
+      const {companyName} =req.body;
+      const company=await Company.findOne({name:companyName});
+      const token=generateJWT(company);
+      const newInvitation= new Invitation({
+        companyId: company._id,
+        token
+      })
+      await newInvitation.save();
+      res.send({company});
+    }catch(err){
+      throw new IndulgeBaseException(err);
+    }
 })
 module.exports=router;
