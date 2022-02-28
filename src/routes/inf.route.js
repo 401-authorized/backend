@@ -10,12 +10,12 @@ router.get("/", auth.authenticate, async (req, res) => { // auth.authenticate sh
   try{
     if(req.role==="admin")
     {
-    const queryBuilder = new QueryBuilder(INF.find(), req.query);
-    const infs = await queryBuilder.execAll().query.populate('hrId');
-    res.json(infs);
+      const queryBuilder = new QueryBuilder(INF.find(), req.query);
+      const infs = await queryBuilder.execAll().query.populate('hrId');
+      res.json(infs);
     }
     else{
-      const infs = await INF.find({}); // should be changed to that particular user
+      const infs = await INF.find({hrId:req.user._id}); // should be changed to that particular user
       if(infs)
       {
         res.send({
@@ -54,7 +54,9 @@ router.get('/:id', auth.authenticate, async(req, res)=>{ // auth.authenticate sh
   try{
     const {id}=req.params;
     const inf=await INF.findById(id);
-    if (inf){
+    const userId=req.user._id;
+
+    if (inf && (req.role==="admin" || userId===inf.hrId)){
       res.send({
         success:true,
         inf

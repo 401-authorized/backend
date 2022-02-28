@@ -19,3 +19,5 @@ router.get('/', async(req, res)=>{
         throw new IndulgeBaseException(err);
     }
 })
+
+module.exports=router;

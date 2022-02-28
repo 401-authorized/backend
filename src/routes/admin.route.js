@@ -1,7 +1,6 @@
 const express = require("express");
 const auth=require('../utils/auth');
-const HR=require('../models/hr.model');
-const Invitation=require('../models/invitation.model');
+const Admin=require('../models/admin.model');
 const IndulgeBaseException=require('../core/IndulgeBaseException');
 const IndulgeBadRequestException = require("../exceptions/IndulgeBadRequestException");
 const IndulgeUnauthorisedException = require("../exceptions/indulgeUnauthorisedException");
@@ -10,7 +9,7 @@ const router=express.Router();
 router.post('/login', async(req, res)=>{
     try{
         const {email, password}=req.body;
-        let user=await HR.findOne({email});
+        const user=await Admin.findOne({email});
         if (!user){
             res.send({
                 success:false
@@ -35,43 +34,15 @@ router.post('/login', async(req, res)=>{
       }
 })
 
-router.get('/register/:hash',async(req,res)=>{
-    try{
-        const {hash} = req.params;
-        const curInvitation = await Invitation.findOne({token:hash});
-        if(curInvitation){
-            let {token} = curInvitation;
-            let decoded;
-            try {
-                decoded = auth.verifyJWT(token);
-            } catch (err) {
-                res.send({
-                    success:false
-                })
-                return;
-            }
-        }else{
-            res.send({
-                success:false
-            })
-            return;
-        }
-        res.send({
-            success: true,
-            companyId: curInvitation.companyId
-        })
-    }catch(err){
-        throw new IndulgeBaseException(err);
-    }
-})
+
 
 router.post('/register',async(req,res)=>{
     try{
         const hash = await auth.hash(req.body.password);
         req.body.password = hash;
-        const newHr = new HR(req.body);
-        await newHr.save();
-        res.json(newHr);
+        const newAdmin = new Admin(req.body);
+        await newAdmin.save();
+        res.json(newAdmin);
     }catch(err){
         throw new IndulgeBaseException(err);
     }
@@ -80,10 +51,9 @@ router.post('/register',async(req,res)=>{
 router.put('/',auth.authenticate,async(req,res)=>{
     try{
         const id = req.user._id;
-        await HR.findByIdAndUpdate(id,{
+        await Admin.findByIdAndUpdate(id,{
             name: req.body.name,
-            designation: req.body.designation,
-            contact : req.body.contact
+            email: req.body.email,
         })
         res.send({
             success: true
@@ -96,30 +66,17 @@ router.put('/',auth.authenticate,async(req,res)=>{
     })
 })
 
-router.get('/index',auth.authenticate, auth.verifyAdmin, async(req,res)=>{
-   try{
-        const hrs = await HR.find({});
-        res.send({
-            success:true,
-            hrs
-        })
-   }catch(err){
-        throw new IndulgeBaseException(err);
-   }
-    res.send({
-        success: false
-    })
-})
+
 
 router.get('/:id',auth.authenticate,async(req,res)=>{
     try{
         const {id} = req.params;
-        const hr = await HR.findById(id);
-        if(hr)
+        const admin = await Admin.findById(id);
+        if(admin)
         {
             res.send({
                 success:true,
-                hr
+                admin
             })
         }
         else
