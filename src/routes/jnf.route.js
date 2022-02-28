@@ -23,6 +23,7 @@ router.post("/", auth.authenticate, async (req, res) => {
   try {
     let newJnf = new JNF(req.body);
     newJnf.hrId=req.user._id;
+    newJnf.companyId=req.user.companyId;
     await newJnf.save();
     res.json(newJnf);
   } catch (err) {
@@ -33,12 +34,15 @@ router.post("/", auth.authenticate, async (req, res) => {
 router.put("/:id", auth.authenticate, async (req, res) => {
   try {
     const { id } = req.params;
+    const userId = req.user._id;
     const jnf=await JNF.findById(id);
-    if (req.user._id!=jnf.hrId){
+    if (userId.equals(jnf.hrId)){
+      await JNF.findByIdAndUpdate(id, req.body);
+      res.send({ success: true });
+    }else{
       throw new IndulgeUnauthorisedException({message: "Unauthorised"});
     }
-    await JNF.findByIdAndUpdate(id, req.body);
-    res.send({ success: true });
+    
   } catch (err) {
     const e = IndulgeExceptionHandler(err);
     res.status(e.code).json(e);
@@ -51,7 +55,7 @@ router.get("/:id", auth.authenticate, async (req, res) => {
     const jnf = await JNF.findById(id);
     const userId = req.user._id;
 
-    if (jnf && (req.role === "admin" || userId === jnf.hrId)) {
+    if (jnf && (req.role === "admin" || userId.equals(jnf.hrId))) {
       res.send({
         success: true,
         jnf,

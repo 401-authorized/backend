@@ -13,7 +13,7 @@ const infSchema = new Schema({
   companyId: {
     type: Schema.Types.ObjectId,
     ref: "Company",
-    // required: true,
+     required: true,
   },
   hrId: {
     type: Schema.Types.ObjectId,
