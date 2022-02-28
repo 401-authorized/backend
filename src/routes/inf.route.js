@@ -40,6 +40,10 @@ router.post("/", auth.authenticate, async (req, res) => {
 router.put("/:id", auth.authenticate, async (req, res) => {
   try {
     const { id } = req.params;
+    const inf=INF.findById(id);
+    if (req.user._id!=inf.hrId){
+      throw new IndulgeUnauthorisedException({message: "Unauthorised"});
+    }
     await INF.findByIdAndUpdate(id, req.body);
     res.send({ success: true });
   } catch (err) {

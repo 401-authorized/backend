@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const IndulgeUnauthorisedException = require("../exceptions/indulgeUnauthorisedException");
 const { QueryBuilder } = require("../helpers/query-builder.class");
 const JNF = require("../models/jnf.model");
 const auth = require("../utils/auth");
@@ -32,6 +33,10 @@ router.post("/", auth.authenticate, async (req, res) => {
 router.put("/:id", auth.authenticate, async (req, res) => {
   try {
     const { id } = req.params;
+    const jnf=await JNF.findById(id);
+    if (req.user._id!=jnf.hrId){
+      throw new IndulgeUnauthorisedException({message: "Unauthorised"});
+    }
     await JNF.findByIdAndUpdate(id, req.body);
     res.send({ success: true });
   } catch (err) {
@@ -61,4 +66,5 @@ router.get("/:id", auth.authenticate, async (req, res) => {
     res.status(e.code).json(e);
   }
 });
+
 module.exports = router;
