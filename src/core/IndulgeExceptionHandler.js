@@ -10,15 +10,13 @@ function IndulgeExceptionHandler(E) {
   }
   if (E instanceof IndulgeBaseException) return E;
   else if (E instanceof Error) {
-    reutrn(
-      new IndulgeBaseException({
-        name: E.name,
-        message: E.message,
-        errors: [E],
-        critical: true,
-        thrownBy: E.stack,
-      })
-    );
+    return new IndulgeBaseException({
+      name: E.name,
+      message: E.message,
+      errors: [E],
+      critical: true,
+      thrownBy: E.stack,
+    });
   }
 }
 

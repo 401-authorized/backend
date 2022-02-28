@@ -6,6 +6,7 @@ const IndulgeBaseException = require("../core/IndulgeBaseException");
 const IndulgeBadRequestException = require("../exceptions/IndulgeBadRequestException");
 const IndulgeUnauthorisedException = require("../exceptions/indulgeUnauthorisedException");
 const IndulgeValidationException = require("../exceptions/IndulgeValidationException");
+const IndulgeExceptionHandler = require("../core/IndulgeExceptionHandler");
 const router = express.Router();
 
 router.post("/login", async (req, res) => {
@@ -13,16 +14,20 @@ router.post("/login", async (req, res) => {
     const { email, password } = req.body;
     let user = await HR.findOne({ email });
     if (!user) {
-      throw new IndulgeValidationException({message:"Invalid email or password"});
+      throw new IndulgeValidationException({
+        message: "Invalid email or password",
+      });
     }
     const result = await auth.verifyHash(password, user.password);
-    if (!result) {
+    if (result) {
       res.send({
         success: true,
         token: auth.generateJWT(user),
       });
     } else {
-        throw new IndulgeValidationException({message:"Invalid email or password"});
+      throw new IndulgeValidationException({
+        message: "Invalid email or password",
+      });
     }
   } catch (err) {
     const e = IndulgeExceptionHandler(err);
@@ -37,7 +42,7 @@ router.get("/register/:hash", auth.verifyInvitation, async (req, res) => {
     res.send({
       success: true,
       companyId: curInvitation.companyId,
-      hash
+      hash,
     });
   } catch (err) {
     const e = IndulgeExceptionHandler(err);
@@ -52,7 +57,7 @@ router.post("/register", auth.verifyInvitation, async (req, res) => {
     const passwordHash = await auth.hash(req.body.password);
     req.body.password = passwordHash;
     let newHr = new HR(req.body);
-    newHr.companyId=curInvitation.companyId;
+    newHr.companyId = curInvitation.companyId;
     await newHr.save();
     await Invitation.findByIdAndDelete(curInvitation._id);
     res.json(newHr);
@@ -87,6 +92,7 @@ router.get("/index", auth.authenticate, auth.verifyAdmin, async (req, res) => {
       hrs,
     });
   } catch (err) {
+    console.log(err);
     const e = IndulgeExceptionHandler(err);
     res.status(e.code).json(e);
   }
@@ -94,7 +100,7 @@ router.get("/index", auth.authenticate, auth.verifyAdmin, async (req, res) => {
 
 router.get("/", auth.authenticate, async (req, res) => {
   try {
-    const id  = req.user._id;
+    const id = req.user._id;
     const hr = await HR.findById(id);
     if (hr) {
       res.send({
@@ -102,7 +108,7 @@ router.get("/", auth.authenticate, async (req, res) => {
         hr,
       });
     } else {
-      throw IndulgeUnauthorisedException({message:"User Not Found"})
+      throw IndulgeUnauthorisedException({ message: "User Not Found" });
     }
   } catch (err) {
     const e = IndulgeExceptionHandler(err);

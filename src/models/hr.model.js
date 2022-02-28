@@ -8,15 +8,9 @@ const hrSchema = new Schema({
     required: true,
     ref: "Company",
   },
-  contact: {
-    countryCode: {
-      type: String,
-      required: true,
-    },
-    mobileNumber: {
-      type: String,
-      required: true,
-    },
+  mobileNumber: {
+    type: String,
+    required: true,
   },
   designation: {
     type: String,

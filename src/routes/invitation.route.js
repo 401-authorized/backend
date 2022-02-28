@@ -3,7 +3,9 @@ const Company = require("../models/company.model");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
 const Invitation = require("../models/invitation.model");
-const auth =require("../utils/auth");
+const auth = require("../utils/auth");
+const IndulgeExceptionHandler = require("../core/IndulgeExceptionHandler");
+const IndulgeInternalServerException = require("../exceptions/IndulgeInternalServerException");
 
 const generateJWT = (company) => {
   try {
@@ -13,15 +15,16 @@ const generateJWT = (company) => {
         id: company._id,
       },
       process.env.SECRET_KEY || "secret",
-      { expiresIn: process.env.JWT_VALIDITY || "360s" }
+      { expiresIn: process.env.JWT_VALIDITY || "10d" }
     );
   } catch (err) {
-    const e=new IndulgeExceptionHandler(err);
-    res.status(e.code).send(err);
+    throw new IndulgeInternalServerException({
+      message: "Invitation link not generated",
+    });
   }
 };
 
-router.post("/", auth.authenticate,auth.verifyAdmin, async (req, res) => {
+router.post("/", auth.authenticate, auth.verifyAdmin, async (req, res) => {
   try {
     const { companyName } = req.body;
     const company = await Company.findOne({ name: companyName });
@@ -31,7 +34,7 @@ router.post("/", auth.authenticate,auth.verifyAdmin, async (req, res) => {
       token,
     });
     await newInvitation.save();
-    res.send({ company });
+    res.send({ company, token });
   } catch (err) {
     const e = IndulgeExceptionHandler(err);
     res.status(e.code).json(e);

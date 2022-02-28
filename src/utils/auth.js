@@ -6,7 +6,7 @@ const IndulgeUnauthorisedException = require("../exceptions/indulgeUnauthorisedE
 const IndulgeBaseException = require("../core/IndulgeBaseException");
 const IndulgeBadRequestException = require("../exceptions/IndulgeBadRequestException");
 const IndulgeExceptionHandler = require("../core/IndulgeExceptionHandler");
-
+const Invitation = require("../models/invitation.model");
 const typeMapping = (user) => {
   try {
     if (user instanceof Admin) return "admin";
@@ -161,25 +161,26 @@ const verifyAdmin = async (req, res, next) => {
   }
 };
 
-const verifyInvitation= async(req, res, next)=>{
+const verifyInvitation = async (req, res, next) => {
   try {
-    const { hash } = req.params;
-    if (!hash) hash=req.body.hash;
+    let { hash } = req.params;
+    if (!hash) hash = req.body.hash;
     const curInvitation = await Invitation.findOne({ token: hash });
     if (curInvitation) {
       let { token } = curInvitation;
       let decoded;
       try {
-        decoded = auth.verifyJWT(token);
+        decoded = verifyJWT(token);
       } catch (err) {
-        throw new IndulgeBadRequestException({message:"Invitation Expired"});
+        throw new IndulgeBadRequestException({ message: "Invitation Expired" });
       }
     } else {
-        throw new IndulgeBadRequestException({message:"Invitation not found"});
+      throw new IndulgeBadRequestException({ message: "Invitation not found" });
     }
     next();
   } catch (err) {
-    const e=new IndulgeExceptionHandler(err);
+    console.log(err);
+    const e = new IndulgeExceptionHandler(err);
     res.status(e.code).send(err);
   }
 };
@@ -195,5 +196,5 @@ module.exports = {
   authenticate,
   verifyAdmin,
   typeMapping,
-  verifyInvitation
+  verifyInvitation,
 };
