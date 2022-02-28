@@ -6,15 +6,15 @@ const auth=require('../utils/auth');
 
 
 // Example use case for QUeryBuilder class for using sort, limit, filter and paginate
-router.get("/", async (req, res) => { // auth.authenticate should be added
+router.get("/", auth.authenticate, async (req, res) => { // auth.authenticate should be added
   try{
-    // if(req.role==="admin")
-    // {
-    // const queryBuilder = new QueryBuilder(INF.find(), req.query);
-    // const infs = await queryBuilder.execAll().query.populate('hrId');
-    // res.json(infs);
-    // }
-    // else{
+    if(req.role==="admin")
+    {
+    const queryBuilder = new QueryBuilder(INF.find(), req.query);
+    const infs = await queryBuilder.execAll().query.populate('hrId');
+    res.json(infs);
+    }
+    else{
       const infs = await INF.find({}); // should be changed to that particular user
       if(infs)
       {
@@ -24,7 +24,7 @@ router.get("/", async (req, res) => { // auth.authenticate should be added
         })
       }
       res.send({success:false})
-    // }
+    }
   }catch(err){
     res.status(500).send(err);
   }
@@ -50,7 +50,7 @@ router.put('/:id',auth.authenticate,async(req,res)=>{
   }
 })
 
-router.get('/:id', async(req, res)=>{ // auth.authenticate should be added
+router.get('/:id', auth.authenticate, async(req, res)=>{ // auth.authenticate should be added
   try{
     const {id}=req.params;
     const inf=await INF.findById(id);

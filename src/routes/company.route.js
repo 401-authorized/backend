@@ -8,19 +8,23 @@ const IndulgeBadRequestException = require("../exceptions/IndulgeBadRequestExcep
 const IndulgeUnauthorisedException = require("../exceptions/indulgeUnauthorisedException");
 const router=express.Router();
 
-router.get('/', async(req, res)=>{
+router.get('/', auth.authenticate, async(req, res)=>{
     try{
-        const {quer}=req.query;
-        if (!quer){
-            const companies=await Company.find({});
+        if (req.role==="admin"){
+            const {quer}=req.query;
+            if (!quer){
+                const companies=await Company.find({});
+                res.send(companies);
+                return;
+            }
+            const opt=new RegExp(`^${quer}`);
+            const companies=await Company.find(
+                { "name": { $regex: opt, $options: 'i'} }
+            );
             res.send(companies);
-            return;
+        }else{
+            res.status(401).send({success:false});
         }
-        const opt=new RegExp(`^${quer}`);
-        const companies=await Company.find(
-            { "name": { $regex: opt, $options: 'i'} }
-        );
-        res.send(companies);
     }catch(err){
         throw new IndulgeBaseException(err);
     }
