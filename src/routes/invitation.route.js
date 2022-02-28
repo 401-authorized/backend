@@ -33,8 +33,8 @@ router.post("/", auth.authenticate,auth.verifyAdmin, async (req, res) => {
     await newInvitation.save();
     res.send({ company });
   } catch (err) {
-    const e=new IndulgeExceptionHandler(err);
-    res.status(e.code).send(err);
+    const e = IndulgeExceptionHandler(err);
+    res.status(e.code).json(e);
   }
 });
 module.exports = router;

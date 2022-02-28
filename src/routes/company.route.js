@@ -22,8 +22,8 @@ router.get("/", auth.authenticate, auth.verifyAdmin, async (req, res) => {
     });
     res.send(companies);
   } catch (err) {
-    const e=new IndulgeExceptionHandler(err);
-    res.status(e.code).send(err);
+    const e = IndulgeExceptionHandler(err);
+    res.status(e.code).json(e);
   }
 });
 
@@ -36,8 +36,8 @@ router.put("/:id", auth.authenticate, auth.verifyAdmin, async (req, res) => {
         success: true,
       });
     } catch (err) {
-      const e=new IndulgeExceptionHandler(err);
-      res.status(e.code).send(err);
+      const e = IndulgeExceptionHandler(err);
+      res.status(e.code).json(e);
     }
 });
 
@@ -48,8 +48,8 @@ router.post("/", auth.authenticate, auth.verifyAdmin, async (req, res) => {
     await newCompany.save();
     res.send(newCompany);
   } catch (err) {
-    const e=new IndulgeExceptionHandler(err);
-    res.status(e.code).send(err);
+    const e = IndulgeExceptionHandler(err);
+    res.status(e.code).json(e);
   }
 });
 module.exports = router;

@@ -25,8 +25,8 @@ router.post("/login", async (req, res) => {
         throw new IndulgeValidationException({message:"Invalid email or password"});
     }
   } catch (err) {
-    const e=new IndulgeExceptionHandler(err);
-    res.status(e.code).send(err);
+    const e = IndulgeExceptionHandler(err);
+    res.status(e.code).json(e);
   }
 });
 
@@ -40,8 +40,8 @@ router.get("/register/:hash", auth.verifyInvitation, async (req, res) => {
       hash
     });
   } catch (err) {
-    const e=new IndulgeExceptionHandler(err);
-    res.status(e.code).send(err);
+    const e = IndulgeExceptionHandler(err);
+    res.status(e.code).json(e);
   }
 });
 
@@ -57,8 +57,8 @@ router.post("/register", auth.verifyInvitation, async (req, res) => {
     await Invitation.findByIdAndDelete(curInvitation._id);
     res.json(newHr);
   } catch (err) {
-    const e=new IndulgeExceptionHandler(err);
-    res.status(e.code).send(err);
+    const e = IndulgeExceptionHandler(err);
+    res.status(e.code).json(e);
   }
 });
 
@@ -74,8 +74,8 @@ router.put("/", auth.authenticate, async (req, res) => {
       success: true,
     });
   } catch (err) {
-    const e=new IndulgeExceptionHandler(err);
-    res.status(e.code).send(err);
+    const e = IndulgeExceptionHandler(err);
+    res.status(e.code).json(e);
   }
 });
 
@@ -87,8 +87,8 @@ router.get("/index", auth.authenticate, auth.verifyAdmin, async (req, res) => {
       hrs,
     });
   } catch (err) {
-    const e=new IndulgeExceptionHandler(err);
-    res.status(e.code).send(err);
+    const e = IndulgeExceptionHandler(err);
+    res.status(e.code).json(e);
   }
 });
 
@@ -105,8 +105,8 @@ router.get("/", auth.authenticate, async (req, res) => {
       throw IndulgeUnauthorisedException({message:"User Not Found"})
     }
   } catch (err) {
-    const e=new IndulgeExceptionHandler(err);
-    res.status(e.code).send(err);
+    const e = IndulgeExceptionHandler(err);
+    res.status(e.code).json(e);
   }
 });
 

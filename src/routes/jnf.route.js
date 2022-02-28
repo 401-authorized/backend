@@ -14,8 +14,8 @@ router.get("/", auth.authenticate, async (req, res) => {
       res.json(jnfs);
     }
   } catch (err) {
-    const e=new IndulgeExceptionHandler(err);
-    res.status(e.code).send(err);
+    const e = IndulgeExceptionHandler(err);
+    res.status(e.code).json(e);
   }
 });
 router.post("/", auth.authenticate, async (req, res) => {
@@ -25,8 +25,8 @@ router.post("/", auth.authenticate, async (req, res) => {
     await newJnf.save();
     res.json(newJnf);
   } catch (err) {
-    const e=new IndulgeExceptionHandler(err);
-    res.status(e.code).send(err);
+    const e = IndulgeExceptionHandler(err);
+    res.status(e.code).json(e);
   }
 });
 router.put("/:id", auth.authenticate, async (req, res) => {
@@ -35,8 +35,8 @@ router.put("/:id", auth.authenticate, async (req, res) => {
     await JNF.findByIdAndUpdate(id, req.body);
     res.send({ success: true });
   } catch (err) {
-    const e=new IndulgeExceptionHandler(err);
-    res.status(e.code).send(err);
+    const e = IndulgeExceptionHandler(err);
+    res.status(e.code).json(e);
   }
 });
 
@@ -57,8 +57,8 @@ router.get("/:id", auth.authenticate, async (req, res) => {
       throw new IndulgeUnauthorisedException({message: "Unauthorised"});
     }
   } catch (err) {
-    const e=new IndulgeExceptionHandler(err);
-    res.status(e.code).send(err);
+    const e = IndulgeExceptionHandler(err);
+    res.status(e.code).json(e);
   }
 });
 module.exports = router;

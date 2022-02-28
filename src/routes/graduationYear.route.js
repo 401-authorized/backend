@@ -11,8 +11,8 @@ router.put("/", auth.authenticate, auth.verifyAdmin, async (req, res) => {
     await Grad.findByIdAndUpdate(id, req.body);
     res.send({ success: true });
   } catch (err) {
-    const e=new IndulgeExceptionHandler(err);
-    res.status(e.code).send(err);
+    const e = IndulgeExceptionHandler(err);
+    res.status(e.code).json(e);
   }
 });
 router.get("/", auth.authenticate, auth.verifyAdmin, async (req, res) => {
@@ -20,8 +20,8 @@ router.get("/", auth.authenticate, auth.verifyAdmin, async (req, res) => {
     const result = Grad.findOne({});
     res.send(result);
   } catch (err) {
-    const e=new IndulgeExceptionHandler(err);
-    res.status(e.code).send(err);
+    const e = IndulgeExceptionHandler(err);
+    res.status(e.code).json(e);
   }
 });
 

@@ -39,8 +39,8 @@ router.post("/register", async (req, res) => {
     await newAdmin.save();
     res.json(newAdmin);
   } catch (err) {
-    const e=new IndulgeExceptionHandler(err);
-    res.status(e.code).send(err);
+    const e = IndulgeExceptionHandler(err);
+    res.status(e.code).json(e);
   }
 });
 
@@ -55,8 +55,8 @@ router.put("/", auth.authenticate, async (req, res) => {
       success: true,
     });
   } catch (err) {
-    const e=new IndulgeExceptionHandler(err);
-    res.status(e.code).send(err);
+    const e = IndulgeExceptionHandler(err);
+    res.status(e.code).json(e);
   }
 });
 
@@ -73,8 +73,8 @@ router.get("/:id", auth.authenticate, async (req, res) => {
       throw new IndulgeUnauthorisedException({message:"Unauthorised"});
     }
   } catch (err) {
-    const e=new IndulgeExceptionHandler(err);
-    res.status(e.code).send(err);
+    const e = IndulgeExceptionHandler(err);
+    res.status(e.code).json(e);
   }
 });
 

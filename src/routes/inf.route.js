@@ -19,8 +19,8 @@ router.get("/", auth.authenticate, async (req, res) => {
       res.json(infs);
     }
   } catch (err) {
-    const e=new IndulgeExceptionHandler(err);
-    res.status(e.code).send(err);
+    const e = IndulgeExceptionHandler(err);
+    res.status(e.code).json(e);
   }
 });
 
@@ -32,8 +32,8 @@ router.post("/", auth.authenticate, async (req, res) => {
     await sendMail(template.INFSEND, {}, "kushakjafry@gmail.com");
     res.json(newInf);
   } catch (err) {
-    const e=new IndulgeExceptionHandler(err);
-    res.status(e.code).send(err);
+    const e = IndulgeExceptionHandler(err);
+    res.status(e.code).json(e);
   }
 });
 
@@ -43,8 +43,8 @@ router.put("/:id", auth.authenticate, async (req, res) => {
     await INF.findByIdAndUpdate(id, req.body);
     res.send({ success: true });
   } catch (err) {
-    const e=new IndulgeExceptionHandler(err);
-    res.status(e.code).send(err);
+    const e = IndulgeExceptionHandler(err);
+    res.status(e.code).json(e);
   }
 });
 
@@ -66,8 +66,8 @@ router.get("/:id", auth.authenticate, async (req, res) => {
       throw new IndulgeUnauthorisedException({message: "Unauthorised"});
     }
   } catch (err) {
-    const e=new IndulgeExceptionHandler(err);
-    res.status(e.code).send(err);
+    const e = IndulgeExceptionHandler(err);
+    res.status(e.code).json(e);
   }
 });
 
