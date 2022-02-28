@@ -16,7 +16,8 @@ router.post("/login", async (req, res) => {
       throw new IndulgeUnauthorisedException({message:"Invalid email or password"});
     }
     const result = await auth.verifyHash(password, user.password);
-    if (!result) {
+    console.log(result);
+    if (result) {
       res.send({
         success: true,
         token: auth.generateJWT(user),
@@ -25,8 +26,8 @@ router.post("/login", async (req, res) => {
         throw new IndulgeUnauthorisedException({message:"Invalid email or password"});
     }
   } catch (err) {
-    const e=new IndulgeExceptionHandler(err);
-    res.status(e.code).send(err);
+    const e = IndulgeExceptionHandler(err);
+    res.status(e.code).json(e);
   }
 });
 

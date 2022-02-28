@@ -52,6 +52,10 @@ const templates = {
     name: "verifyEmail",
     subject: "Welcome to Indulge CDC Portal",
   },
+  INFSEND: {
+    name: "infSend",
+    subject: "New INF created",
+  },
 };
 
 module.exports = {

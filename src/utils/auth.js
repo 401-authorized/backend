@@ -124,7 +124,7 @@ const authenticate = async function (req, res, next) {
     } catch (err) {
       throw new IndulgeBadRequestException({ message: "Invalid JWT supplied" });
     }
-    if (decoded.adm === "true") {
+    if (decoded.adm) {
       user = await Admin.findById(decoded.id);
       req.role = "admin";
     } else {
