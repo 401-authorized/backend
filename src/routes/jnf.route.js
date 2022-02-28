@@ -26,7 +26,7 @@ router.get("/",auth.authenticate, async (req, res) => {
     res.status(500).send(err);
   }
 });
-router.post('/',async(req,res)=>{
+router.post('/', auth.authenticate, async(req,res)=>{
   try{
     const newJnf = new JNF(req.body);
     await newJnf.save();
@@ -45,7 +45,7 @@ router.put('/:id',auth.authenticate,async(req,res)=>{
   }
 })
 
-router.get('/:id', async(req, res)=>{ // auth.authenticate should be added
+router.get('/:id', auth.authenticate, async(req, res)=>{ // auth.authenticate should be added
   try{
     const {id}=req.params;
     const jnf=await JNF.findById(id);
