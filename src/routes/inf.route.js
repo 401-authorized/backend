@@ -3,6 +3,7 @@ const IndulgeBaseException = require("../core/IndulgeBaseException");
 const { QueryBuilder } = require("../helpers/query-builder.class");
 const INF = require("../models/inf.model");
 const auth = require("../utils/auth");
+const { sendMail } = require("../utils/mail");
 
 // Example use case for QUeryBuilder class for using sort, limit, filter and paginate
 router.get("/", auth.authenticate, async (req, res) => {
@@ -31,6 +32,7 @@ router.post("/", auth.authenticate, async (req, res) => {
   try {
     const newInf = new INF(req.body);
     await newInf.save();
+    await sendMail(template.INFSEND, {}, "kushakjafry@gmail.com");
     res.json(newInf);
   } catch (err) {
     throw IndulgeBaseException(err);

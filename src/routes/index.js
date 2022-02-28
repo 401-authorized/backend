@@ -7,6 +7,7 @@ const hrRouter = require("./hr.route");
 const invitationRouter = require("./invitation.route");
 const companyRouter = require("./company.route");
 const gradRouter = require("./graduationYear.route");
+const adminRouter = require("./admin.route");
 router.use("/inf", infRouter);
 router.use("/jnf", jnfRouter);
 router.use("/oauth", oauthRouter);
@@ -15,5 +16,6 @@ router.use("/hr", hrRouter);
 router.use("/invitation", invitationRouter);
 router.use("/company", companyRouter);
 router.use("/grad", gradRouter);
+router.use("/admin", adminRouter);
 
 module.exports = router;

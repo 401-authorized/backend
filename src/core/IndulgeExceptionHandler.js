@@ -8,7 +8,6 @@ function IndulgeExceptionHandler(E) {
       critical: true,
     });
   }
-
   if (E instanceof IndulgeBaseException) return E;
   else if (E instanceof Error) {
     reutrn(

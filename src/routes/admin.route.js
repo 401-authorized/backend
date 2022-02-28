@@ -4,6 +4,7 @@ const Admin = require("../models/admin.model");
 const IndulgeBaseException = require("../core/IndulgeBaseException");
 const IndulgeBadRequestException = require("../exceptions/IndulgeBadRequestException");
 const IndulgeUnauthorisedException = require("../exceptions/indulgeUnauthorisedException");
+const IndulgeExceptionHandler = require("../core/IndulgeExceptionHandler");
 const router = express.Router();
 
 router.post("/login", async (req, res) => {
@@ -11,13 +12,11 @@ router.post("/login", async (req, res) => {
     const { email, password } = req.body;
     const user = await Admin.findOne({ email });
     if (!user) {
-      res.send({
-        success: false,
-      });
-      return;
+      throw new IndulgeUnauthorisedException({ message: "Invalid User" });
     }
     const result = await auth.verifyHash(password, user.password);
-    if (!result) {
+    console.log(result);
+    if (result) {
       res.send({
         success: true,
         token: auth.generateJWT(user),
@@ -28,7 +27,8 @@ router.post("/login", async (req, res) => {
       });
     }
   } catch (err) {
-    throw new IndulgeBaseException(err);
+    const e = IndulgeExceptionHandler(err);
+    res.status(e.code).json(e);
   }
 });
 
