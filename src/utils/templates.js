@@ -17,6 +17,7 @@ class Template {
          this.opts
       );
     } catch (err) {
+      console.log(err);
       throw new IndulgeResourceNotFoundException(this.name + ".ejs");
     }
   }
@@ -67,6 +68,10 @@ const templates = {
   JNFUPDATE:{
     name: "jnfUpdate",
     subject : "JNF Updated",
+  },
+  INVITATION:{
+    name: "invitation",
+    subject: "Invitation from CDC, IIT(ISM) Dhanbad"
   }
 };
 
