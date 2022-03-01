@@ -13,7 +13,9 @@ router.post("/login", async (req, res) => {
     const { email, password } = req.body;
     const user = await Admin.findOne({ email });
     if (!user) {
-      throw new IndulgeUnauthorisedException({message:"Invalid email or password"});
+      throw new IndulgeUnauthorisedException({
+        message: "Invalid email or password",
+      });
     }
     const result = await auth.verifyHash(password, user.password);
     console.log(result);
@@ -23,7 +25,9 @@ router.post("/login", async (req, res) => {
         token: auth.generateJWT(user),
       });
     } else {
-        throw new IndulgeUnauthorisedException({message:"Invalid email or password"});
+      throw new IndulgeUnauthorisedException({
+        message: "Invalid email or password",
+      });
     }
   } catch (err) {
     const e = IndulgeExceptionHandler(err);
@@ -60,9 +64,9 @@ router.put("/", auth.authenticate, async (req, res) => {
   }
 });
 
-router.get("/:id", auth.authenticate, async (req, res) => {
+router.get("/", auth.authenticate, async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id } = req.user;
     const admin = await Admin.findById(id);
     if (admin) {
       res.send({
@@ -70,7 +74,7 @@ router.get("/:id", auth.authenticate, async (req, res) => {
         admin,
       });
     } else {
-      throw new IndulgeUnauthorisedException({message:"Unauthorised"});
+      throw new IndulgeUnauthorisedException({ message: "Unauthorised" });
     }
   } catch (err) {
     const e = IndulgeExceptionHandler(err);
