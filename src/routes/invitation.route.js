@@ -6,6 +6,9 @@ const Invitation = require("../models/invitation.model");
 const auth = require("../utils/auth");
 const IndulgeExceptionHandler = require("../core/IndulgeExceptionHandler");
 const IndulgeInternalServerException = require("../exceptions/IndulgeInternalServerException");
+const {templates}= require("../utils/templates");
+const { sendMail } = require("../utils/mail");
+
 
 const generateJWT = (company) => {
   try {
@@ -26,15 +29,26 @@ const generateJWT = (company) => {
 
 router.post("/", auth.authenticate, auth.verifyAdmin, async (req, res) => {
   try {
-    const { companyName } = req.body;
-    const company = await Company.findOne({ name: companyName });
+    const { name ,email} = req.body;
+    let company = await Company.findOne({ name});
+    if(!company)
+    {
+      company = new Company({name});
+      await company.save();
+    }
     const token = generateJWT(company);
     const newInvitation = new Invitation({
       companyId: company._id,
       token,
+      email
     });
     await newInvitation.save();
-    res.send({ company, token });
+    const url = `https://localhost:3000/signup/?code=${token}`;
+    await sendMail(templates.INVITATION,{name,url},email);
+    res.send({
+        success: true,
+        invitation: newInvitation
+    });
   } catch (err) {
     const e = IndulgeExceptionHandler(err);
     res.status(e.code).json(e);

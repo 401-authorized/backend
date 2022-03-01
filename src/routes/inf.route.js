@@ -33,7 +33,7 @@ router.post("/", auth.authenticate, async (req, res) => {
     newInf.companyId=req.user.companyId;
     await newInf.save();
     // console.log(template);
-    const url= `https://localhost:8080/api/v1/inf/${newInf._id}`;
+    const url= `${process.env.BASE_URL}${newInf._id}`;
     await sendMail(templates.INFSEND, {hrName:`${req.user.name}`, infUrl: url}, "tanwirahmad2912@gmail.com");
     res.json(newInf);
   } catch (err) {

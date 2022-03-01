@@ -70,11 +70,12 @@ router.post("/register", auth.verifyInvitation, async (req, res) => {
 router.put("/", auth.authenticate, async (req, res) => {
   try {
     const id = req.user._id;
-    await HR.findByIdAndUpdate(id, {
-      name: req.body.name,
-      designation: req.body.designation,
-      contact: req.body.contact,
-    });
+    if(req.body.password)
+    {
+    const passwordHash = await auth.hash(req.body.password);
+    req.body.password = passwordHash;
+    }
+    await HR.findByIdAndUpdate(id, req.body);
     res.send({
       success: true,
     });
