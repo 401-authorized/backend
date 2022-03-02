@@ -23,6 +23,7 @@ router.post("/login", async (req, res) => {
       res.send({
         success: true,
         token: auth.generateJWT(user),
+        admin: user,
       });
     } else {
       throw new IndulgeUnauthorisedException({
