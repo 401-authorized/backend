@@ -26,15 +26,6 @@ const upload=multer({
   }
 })
 
-router.get('/download/:id', async(req, res)=>{
-  const {id}=req.params;
-  const inf= await INF.findById(id).populate('companyId').populate('hrId');
-  let result = await Grad.find({});
-  result=result[0];
-  console.log(result);
-  res.render('inf.ejs', {inf, result});
-})
-
 // Example use case for QUeryBuilder class for using sort, limit, filter and paginate
 router.get("/", auth.authenticate, async (req, res) => {
   try {
