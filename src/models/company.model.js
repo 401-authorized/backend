@@ -7,4 +7,4 @@ const companySchema = new Schema({
     required: true,
   },
 });
-module.exports = mongoose.model("company", companySchema);
+module.exports = mongoose.model("Company", companySchema);

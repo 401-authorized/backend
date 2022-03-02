@@ -8,7 +8,7 @@ const invitationModel = require("./src/models/invitation.model");
   const cors = require("cors");
   const debug = require("debug")("server");
   const debug_database = require("debug")("mongoDB");
-  const hr = require("./src/models/hr.model");
+  const multer = require("multer");
   const app = express();
 
   const PORT = port || process.env.PORT || 8080;
@@ -28,6 +28,23 @@ const invitationModel = require("./src/models/invitation.model");
     debug_database("Database connected");
   });
 
+  const storage=multer.diskStorage({
+    destination: function(request, file, callback){
+      callback(null, './public');
+    },
+    filename:function(request, file, callback){
+      callback(null, file.originalname+Date.now());
+    }
+  })
+
+  const upload=multer({
+    storage, 
+    limits :{
+      fieldSize: 1024*1024*20
+    }
+  })
+
+  app.use(express.static(join(__dirname, 'public')));
   debug("Booting %s", appName);
 
   app.use(cors());

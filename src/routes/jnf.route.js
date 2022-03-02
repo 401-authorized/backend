@@ -45,7 +45,7 @@ router.post("/", auth.authenticate, async (req, res) => {
     newJnf.hrId = req.user._id;
     newJnf.companyId = req.user.companyId;
     await newJnf.save();
-    const url = `https://localhost:8080/api/v1/jnf/${newJnf._id}`;
+    const url = `${process.env.BASE_URL}jnf/${newJnf._id}`;
     await sendMail(
       templates.JNFSEND,
       { hrName: `${req.user.name}`, jnfUrl: url },
@@ -64,7 +64,7 @@ router.put("/:id", auth.authenticate, async (req, res) => {
     const jnf = await JNF.findById(id);
     if (userId.equals(jnf.hrId)) {
       await JNF.findByIdAndUpdate(id, req.body);
-      const url = `https://localhost:8080/api/v1/jnf/${jnf._id}`;
+      const url = `${process.env.BASE_URL}jnf/${jnf._id}`;
       await sendMail(
         templates.JNFUPDATE,
         { hrName: `${req.user.name}`, jnfUrl: url },

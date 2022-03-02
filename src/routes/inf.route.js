@@ -50,7 +50,7 @@ router.post("/", auth.authenticate, async (req, res) => {
     newInf.companyId = req.user.companyId;
     await newInf.save();
     // console.log(template);
-    const url = `${process.env.BASE_URL}${newInf._id}`;
+    const url = `${process.env.BASE_URL}inf/${newInf._id}`;
     await sendMail(
       templates.INFSEND,
       { hrName: `${req.user.name}`, infUrl: url },
@@ -70,7 +70,7 @@ router.put("/:id", auth.authenticate, async (req, res) => {
     const userId = req.user._id;
     if (userId.equals(inf.hrId)) {
       await INF.findByIdAndUpdate(id, req.body);
-      const url = `https://localhost:8080/api/v1/inf/${inf._id}`;
+      const url = `${process.env.BASE_URL}inf/${inf._id}`;
       await sendMail(
         templates.INFUPDATE,
         { hrName: `${req.user.name}`, infUrl: url },
@@ -87,7 +87,6 @@ router.put("/:id", auth.authenticate, async (req, res) => {
 });
 
 router.get("/:id", auth.authenticate, async (req, res) => {
-  // auth.authenticate should be added
   try {
     const { id } = req.params;
     const inf = await INF.findById(id);

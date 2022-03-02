@@ -103,7 +103,7 @@ router.get("/index", auth.authenticate, auth.verifyAdmin, async (req, res) => {
 router.get("/", auth.authenticate, async (req, res) => {
   try {
     const id = req.user._id;
-    const hr = await HR.findById(id);
+    const hr = await HR.findById(id).populate('companyId');
     if (hr) {
       res.send({
         success: true,
