@@ -1,9 +1,8 @@
 <div style="max-width: 900px; margin: auto;">
-<div>
-    <img src="/top_logo.png" alt="IIT (ISM) Dhanbad" style="margin:auto; max-width: 900px;">
-</div>
+    <h1 style='margin:0cm;margin-bottom:12.0pt;font-size:16px;font-family:"Times New Roman","serif";color:black;text-align:center;line-height:115%;'><strong><u><span style="color: blue; font-size:19px;line-height:115%;font-family:Avenir;">IIT (ISM) Dhanbad</span></u></strong><u><span style="font-family:Avenir;"></span></u></h1>
+
     <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;line-height:115%;'><strong><span style="font-size:19px;line-height:115%;">&nbsp;</span></strong></p>
-<p style='margin:0cm;margin-bottom:12.0pt;font-size:16px;font-family:"Times New Roman","serif";color:black;text-align:center;line-height:115%;'><strong><u><span style="font-size:19px;line-height:115%;font-family:Avenir;">INTERNSHIP NOTIFICATION FORM (<%=result.placement-1%>-<%= result.placement%100%>)</span></u></strong><u><span style="font-family:Avenir;"></span></u></p>
+<p style='margin:0cm;margin-bottom:12.0pt;font-size:16px;font-family:"Times New Roman","serif";color:black;text-align:center;line-height:115%;'><strong><u><span style="font-size:19px;line-height:115%;font-family:Avenir;">JOB NOTIFICATION FORM (<%=result.placement-1%>-<%= result.placement%100%>)</span></u></strong><u><span style="font-family:Avenir;"></span></u></p>
 <p style='margin:0cm;margin-bottom:12.0pt;font-size:16px;font-family:"Times New Roman","serif";color:black;text-align:center;'><strong><span style="font-size:19px;font-family:Avenir;">COMPANY OVERVIEW</span></strong></p>
 <table style="width:100.0%;margin-left:-5.75pt;border-collapse:collapse;border:none;">
     <tbody>
@@ -12,7 +11,7 @@
                 <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;'><strong><span style="font-family:Avenir;">Name of the Company</span></strong></p>
             </td>
             <td style="width:331.95pt;border:solid black 1.0pt;border-left:  none;padding:0cm 5.75pt 0cm 5.75pt;height:26.0pt;">
-                <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;'><strong><span style='font-size:15px;font-family:"Cambria","serif";color:#2F5496;'><%= inf.companyId.name %> </span></strong></p>
+                <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;'><strong><span style='font-size:15px;font-family:"Cambria","serif";color:#2F5496;'><%= jnf.companyId.name %> </span></strong></p>
             </td>
         </tr>
         <tr>
@@ -20,7 +19,7 @@
                 <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;'><strong><span style="font-family:Avenir;">Category/ Sector</span></strong></p>
             </td>
             <td style="width:331.95pt;border-top:none;border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;padding:0cm 5.75pt 0cm 5.75pt;height:26.0pt;">
-                <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-right:-29.25pt;'><strong><span style='font-size:15px;font-family:"Cambria","serif";color:#2F5496;'><%= inf.sector%> </span></strong></p>
+                <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-right:-29.25pt;'><strong><span style='font-size:15px;font-family:"Cambria","serif";color:#2F5496;'><%= jnf.sector%> </span></strong></p>
             </td>
         </tr>
         <tr>
@@ -28,38 +27,13 @@
                 <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;'><strong><span style="font-family:Avenir;">Website</span></strong></p>
             </td>
             <td style="width:331.95pt;border-top:none;border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;padding:0cm 5.75pt 0cm 5.75pt;height:26.0pt;">
-                <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;'><strong><span style='font-size:15px;font-family:"Cambria","serif";color:#2F5496;'><%= inf.website%> </span></strong></p>
+                <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;'><strong><span style='font-size:15px;font-family:"Cambria","serif";color:#2F5496;'><%= jnf.website%> </span></strong></p>
             </td>
         </tr>
     </tbody>
 </table>
-<p style='margin:0cm;margin-bottom:12.0pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:12.0pt;margin-right:0cm;margin-left:0cm;text-align:center;'><strong><span style="font-size:19px;font-family:Avenir;">INTERNSHIP DURATION</span></strong></p>
-<table style="width:100.0%;margin-left:-5.75pt;border-collapse:collapse;border:none;">
-    <tbody>
-    
-       
-        
-        <%  for(let dur of inf.duration){  %> 
-  
-            <% let course= `Dual Degree/ Integrated M. Tech courses only (${result.placement} batch)`  %> 
-            <% if(dur==="MaytoJuly") course=`Pre-final year students of ALL courses (${result.intern} batch)`%> 
-            <% if(dur==="JulytoDec") course=`M. Tech/ MBA – Business Analytics courses only (${result.intern} batch)` %> 
-            
-        <tr>
-            <td style="width:160.5pt;border:solid black 1.0pt;background:#F2F2F2;padding:0cm 5.75pt 0cm 5.75pt;height:25.7pt;">
-                <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;'><strong><span style="font-family:Avenir;"><%= dur %> </span></strong></p>
-            </td>
-            
 
-            <td style="width:334.25pt;border:solid black 1.0pt;border-left:  none;background:white;padding:0cm 5.75pt 0cm 5.75pt;height:25.7pt;">
-                <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;'><span style="font-size:15px;font-family:Avenir;"><%= course %> </span></p>
-            </td>
-        </tr>
-       
-        <% } %> 
-    </tbody>
-</table>
-<p style='margin:0cm;margin-bottom:12.0pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:12.0pt;margin-right:0cm;margin-left:0cm;text-align:center;'><strong><span style="font-size:19px;font-family:Avenir;">INTERN PROFILE</span></strong></p>
+<p style='margin:0cm;margin-bottom:12.0pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:12.0pt;margin-right:0cm;margin-left:0cm;text-align:center;'><strong><span style="font-size:19px;font-family:Avenir;">JOB DETAILS</span></strong></p>
 <table style="width:100.0%;margin-left:-5.75pt;border-collapse:collapse;border:none;">
     <tbody>
         <tr>
@@ -67,7 +41,7 @@
                 <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;'><strong><span style="font-family:Avenir;">Job Designation</span></strong></p>
             </td>
             <td style="width:331.95pt;border:solid black 1.0pt;border-left:  none;background:white;padding:0cm 5.75pt 0cm 5.75pt;height:21.55pt;">
-                <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;'><strong><span style='font-size:15px;font-family:"Cambria","serif";'><%= inf.designation %> </span></strong></p>
+                <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;'><strong><span style='font-size:15px;font-family:"Cambria","serif";'><%= jnf.designation %> </span></strong></p>
             </td>
         </tr>
         <tr>
@@ -75,56 +49,46 @@
                 <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;'><strong><span style="font-family:Avenir;">Job Description</span></strong></p>
             </td>
             <td style="width:331.95pt;border-top:none;border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;background:white;padding:0cm 5.75pt 0cm 5.75pt;height:56.55pt;">
-                <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;'><strong><span style='font-size:15px;font-family:"Cambria","serif";'><%= inf.description %> </span></strong></p>
+                <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;'><strong><span style='font-size:15px;font-family:"Cambria","serif";'><%= jnf.description %> </span></strong></p>
             </td>
         </tr>
         <tr>
             <td style="width:162.8pt;border:solid black 1.0pt;border-top:none;background:#F2F2F2;padding:  0cm 5.75pt 0cm 5.75pt;height:35.5pt;">
-                <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;'><strong><span style="font-family:Avenir;">Mode of Internship</span></strong></p>
-                <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;'><strong><span style="font-family:Avenir;">(Virtual/ Physical)</span></strong></p>
+                <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;'><strong><span style="font-family:Avenir;">Place of Posting</span></strong></p>
             </td>
             <td style="width:331.95pt;border-top:none;border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;background:white;padding:0cm 5.75pt 0cm 5.75pt;height:35.5pt;">
-                <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;'><strong><span style='font-size:15px;font-family:"Cambria","serif";'><%= inf.mode %> </span></strong></p>
-            </td>
-        </tr>
-        <tr>
-            <td style="width:162.8pt;border:solid black 1.0pt;border-top:none;background:#F2F2F2;padding:  0cm 5.75pt 0cm 5.75pt;height:36.85pt;">
-                <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;'><strong><span style="font-family:Avenir;">Place of Posting</span></strong></p>
-                <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;'><strong><span style="font-family:Avenir;">(In case of physical internship)</span></strong></p>
-            </td>
-            <td style="width:331.95pt;border-top:none;border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;background:white;padding:0cm 5.75pt 0cm 5.75pt;height:36.85pt;">
-                <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;'><strong><span style='font-size:15px;font-family:"Cambria","serif";'><%= inf.placeOfPosting %> </span></strong></p>
+                <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;'><strong><span style='font-size:15px;font-family:"Cambria","serif";'><%= jnf.placeOfPosting%> </span></strong></p>
             </td>
         </tr>
     </tbody>
 </table>
-<p style='margin:0cm;margin-bottom:12.0pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:12.0pt;margin-right:0cm;margin-left:0cm;text-align:center;'><strong><span style="font-size:19px;font-family:Avenir;">STIPEND DETAILS</span></strong></p>
+<p style='margin:0cm;margin-bottom:12.0pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:12.0pt;margin-right:0cm;margin-left:0cm;text-align:center;'><strong><span style="font-size:19px;font-family:Avenir;">SALARY DETAILS</span></strong></p>
 
 <div align="center" style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;'>
     <table style="width:100.0%;border-collapse:collapse;border:none;">
         <tbody>
             <tr>
                 <td style="width:170.75pt;border:solid black 1.0pt;background:#F2F2F2;padding:0cm 5.75pt 0cm 5.75pt;">
-                    <p style='margin:0cm;margin-bottom:  4.8pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:4.8pt;margin-right:0cm;margin-left:0cm;'><strong><span style="font-family:Avenir;">Stipend per month</span></strong></p>
+                    <p style='margin:0cm;margin-bottom:  4.8pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:4.8pt;margin-right:0cm;margin-left:0cm;'><strong><span style="font-family:Avenir;">CTC (in LPA)</span></strong></p>
                 </td>
                 <td style="width:324.0pt;border:solid black 1.0pt;border-left:none;background:white;padding:0cm 5.75pt 0cm 5.75pt;">
-                    <p style='margin:0cm;margin-bottom:  4.8pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:4.8pt;margin-right:0cm;margin-left:0cm;text-align:justify;'><strong><span style='font-size:15px;font-family:"Cambria","serif";'><%= inf.stipend %> </span></strong></p>
+                    <p style='margin:0cm;margin-bottom:  4.8pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:4.8pt;margin-right:0cm;margin-left:0cm;text-align:justify;'><strong><span style='font-size:15px;font-family:"Cambria","serif";'><%= jnf.stipend %> </span></strong></p>
                 </td>
             </tr>
             <tr>
                 <td style="width:170.75pt;border:solid black 1.0pt;border-top:none;background:#F2F2F2;padding:  0cm 5.75pt 0cm 5.75pt;">
-                    <p style='margin:0cm;margin-bottom:  4.8pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:4.8pt;margin-right:0cm;margin-left:0cm;'><strong><span style="font-family:Avenir;">PPO provision on performance basis (Yes / No)&nbsp;</span></strong></p>
+                    <p style='margin:0cm;margin-bottom:  4.8pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:4.8pt;margin-right:0cm;margin-left:0cm;'><strong><span style="font-family:Avenir;">CTC Breakup</span></strong></p>
                 </td>
                 <td style="width:324.0pt;border-top:none;border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;background:white;padding:0cm 5.75pt 0cm 5.75pt;">
-                    <p style='margin:0cm;margin-bottom:  4.8pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:4.8pt;margin-right:0cm;margin-left:0cm;text-align:justify;'><strong><span style='font-size:15px;font-family:"Cambria","serif";color:#2F5496;'><%=(inf.provisionForPPO?"Yes" : "No")  %> </span></strong></p>
+                    <p style='margin:0cm;margin-bottom:  4.8pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:4.8pt;margin-right:0cm;margin-left:0cm;text-align:justify;'><strong><span style='font-size:15px;font-family:"Cambria","serif";color:#2F5496;'><%=jnf.ctcBreakup %> </span></strong></p>
                 </td>
             </tr>
             <tr>
                 <td style="width:170.75pt;border:solid black 1.0pt;border-top:none;background:#F2F2F2;padding:  0cm 5.75pt 0cm 5.75pt;">
-                    <p style='margin:0cm;margin-bottom:  4.8pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:4.8pt;margin-right:0cm;margin-left:0cm;'><strong><span style="font-family:Avenir;">CTC for PPO selects</span></strong></p>
+                    <p style='margin:0cm;margin-bottom:  4.8pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:4.8pt;margin-right:0cm;margin-left:0cm;'><strong><span style="font-family:Avenir;">Bond Details(if any)</span></strong></p>
                 </td>
                 <td style="width:324.0pt;border-top:none;border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;background:white;padding:0cm 5.75pt 0cm 5.75pt;">
-                    <p style='margin:0cm;margin-bottom:  4.8pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:4.8pt;margin-right:0cm;margin-left:0cm;text-align:justify;'><span style='font-size:15px;font-family:"Cambria","serif";color:#2F5496;'><%= inf.ctcDetails %> </span></p>
+                    <p style='margin:0cm;margin-bottom:  4.8pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:4.8pt;margin-right:0cm;margin-left:0cm;text-align:justify;'><span style='font-size:15px;font-family:"Cambria","serif";color:#2F5496;'><%= jnf.bondDetails %> </span></p>
                 </td>
             </tr>
         </tbody>
@@ -132,7 +96,7 @@
 </div>
 <p style='margin:0cm;margin-bottom:12.0pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:12.0pt;margin-right:0cm;margin-left:0cm;text-align:center;'><strong><span style="font-size:19px;font-family:Avenir;">ELIGIBLE COURSES & DISCIPLINES</span></strong></p>
 
-<% if(inf.btechStudents.length){ %> 
+<% if(jnf.btechStudents.length){ %> 
 <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:6.0pt;margin-right:-9.35pt;margin-left:0cm;text-align:justify;'><strong><u><span style="font-size:21px;font-family:Avenir;">4-Year B.Tech Programs</span></u></strong></p>
 <p style='margin:0cm;margin-bottom:4.0pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:2.0pt;margin-right:-9.35pt;margin-left:0cm;text-align:justify;'><span style="font-family:Avenir;">Admitted through <strong>JEE (Advanced)&nbsp;</strong></span></p>
 <table style="width:100.0%;margin-left:-6.0pt;border-collapse:collapse;border:none;">
@@ -146,7 +110,7 @@
             </td>
         </tr>
         <% let cnt = 1; %> 
-        <% for(let course of inf.btechStudents) {%> 
+        <% for(let course of jnf.btechStudents) {%> 
 
         
                 <tr>
@@ -163,7 +127,7 @@
 </table>
 <% } %> 
 
-<% if(inf.fiveYrsStudents.length) {%> 
+<% if(jnf.fiveYrsStudents.length) {%> 
 <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:6.0pt;margin-right:-9.35pt;margin-left:0cm;text-align:justify;'><strong><u><span style="font-size:13px;font-family:Avenir;"><span style="text-decoration:none;">&nbsp;</span></span></u></strong></p>
 <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:6.0pt;margin-right:-9.35pt;margin-left:0cm;text-align:justify;'><strong><u><span style="font-size:21px;font-family:Avenir;">5-Year Dual Degree/ Integrated M.Tech Programs</span></u></strong></p>
 <p style='margin:0cm;margin-bottom:4.0pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:2.0pt;margin-right:-9.35pt;margin-left:0cm;text-align:justify;'><span style="font-family:Avenir;">Admitted through <strong>JEE (Advanced)&nbsp;</strong></span></p>
@@ -179,7 +143,7 @@
                 </td>
             </tr>
             <%  cnt = 1; %> 
-            <% for(let course of inf.fiveYrsStudents) {%> 
+            <% for(let course of jnf.fiveYrsStudents) {%> 
     
             
                     <tr>
@@ -200,7 +164,7 @@
 <% } %> 
 
 
-<% if(inf.skillBasedStudents.length) {%> 
+<% if(jnf.skillBasedStudents.length) {%> 
 <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-right:-9.0pt;text-align:justify;'><strong><u><span style="font-size:21px;font-family:Avenir;">Skill Based Hiring</span></u></strong></p>
 <p style='margin:0cm;margin-bottom:4.0pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:2.0pt;margin-right:-9.35pt;margin-left:0cm;'><span style="font-family:Avenir;color:#222222;background:white;">Students with certified technical expertise&nbsp;in the following skills (from&nbsp;Coursera, Udemy etc.)</span></p>
 <div align="center" style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;'>
@@ -215,7 +179,7 @@
                 </td>
             </tr>
             <%  cnt = 1; %> 
-            <% for(let course of inf.skillBasedStudents) {%> 
+            <% for(let course of jnf.skillBasedStudents) {%> 
     
             
                     <tr>
@@ -235,7 +199,7 @@
 <% } %> 
 
 
-<% if(inf.msctechStudents.length){ %> 
+<% if(jnf.msctechStudents.length){ %> 
 <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-right:-9.0pt;text-align:justify;'><strong><span style="font-size:21px;font-family:Avenir;">&nbsp;</span></strong></p>
 <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-right:-9.0pt;text-align:justify;'><strong><span style="font-size:21px;font-family:Avenir;">&nbsp;</span></strong></p>
 <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-right:-9.0pt;text-align:justify;'><strong><span style="font-size:21px;font-family:Avenir;">&nbsp;</span></strong></p>
@@ -253,7 +217,7 @@
                 </td>
             </tr>
             <%  cnt = 1; %> 
-            <% for(let course of inf.msctechStudents) {%> 
+            <% for(let course of jnf.msctechStudents) {%> 
     
             
                     <tr>
@@ -271,7 +235,7 @@
 </div>
 <% } %> 
 
-<% if(inf.mtechStudents.length){ %> 
+<% if(jnf.mtechStudents.length){ %> 
 <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;text-align:justify;line-height:150%;'><span style="font-size:11px;line-height:150%;font-family:Avenir;">&nbsp;</span></p>
 <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-right:-9.35pt;text-align:justify;'><strong><u><span style="font-size:21px;font-family:Avenir;">2-Year M.Tech Programs</span></u></strong></p>
 <p style='margin:0cm;margin-bottom:3.0pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:3.0pt;margin-right:-9.35pt;margin-left:0cm;text-align:justify;'><span style="font-family:Avenir;">Admitted through <strong>GATE</strong></span></p>
@@ -286,7 +250,7 @@
             </td>
         </tr>
         <%  cnt = 1; %> 
-        <% for(let course of inf.mtechStudents) {%> 
+        <% for(let course of jnf.mtechStudents) {%> 
 
         
                 <tr>
@@ -303,7 +267,7 @@
 </table>
 <% } %> 
 
-<% if(inf.mbaStudents.length){ %> 
+<% if(jnf.mbaStudents.length){ %> 
 
 <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;text-align:justify;line-height:150%;'><span style="font-size:11px;line-height:150%;font-family:Avenir;">&nbsp;</span></p>
 <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-right:-9.35pt;text-align:justify;'><strong><u><span style="font-size:21px;font-family:Avenir;">2-Year MBA Programs</span></u></strong></p>
@@ -321,7 +285,7 @@
                 </td>
             </tr>
             <%  cnt = 1; %> 
-            <% for(let course of inf.mbaStudents) {%> 
+            <% for(let course of jnf.mbaStudents) {%> 
     
             
                     <tr>
@@ -341,7 +305,7 @@
 
 <% } %> 
 
-<% if(inf.mscStudents.length) { %> 
+<% if(jnf.mscStudents.length) { %> 
 <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-right:-9.0pt;text-align:justify;'><strong><u><span style="font-size:21px;font-family:Avenir;">2-Year M.Sc. Programs</span></u></strong></p>
 <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;'><span style="font-family:Avenir;">Admitted through&nbsp;</span><strong><span style="font-size:17px;font-family:Avenir;">JAM &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span></strong></p>
 <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;'><strong><span style="font-size:11px;font-family:Avenir;">&nbsp;</span></strong></p>
@@ -357,7 +321,7 @@
                 </td>
             </tr>
             <%  cnt = 1; %> 
-            <% for(let course of inf.mscStudents) {%> 
+            <% for(let course of jnf.mscStudents) {%> 
     
             
                     <tr>
@@ -376,6 +340,43 @@
 
 <% } %> 
 
+<% if(jnf.phdStudents.length) { %> 
+    <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-right:-9.0pt;text-align:justify;'><strong><u><span style="font-size:21px;font-family:Avenir;">PhD Programs</span></u></strong></p>
+    <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;'><span style="font-family:Avenir;">Admitted through&nbsp;</span><strong><span style="font-size:17px;font-family:Avenir;">GATE/NET &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span></strong></p>
+    <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;'><strong><span style="font-size:11px;font-family:Avenir;">&nbsp;</span></strong></p>
+    <div align="center" style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;'>
+        <table style="width:100.0%;border-collapse:collapse;border:none;">
+            <tbody>
+                <tr>
+                    <td style="width: 4cm;border: 1pt solid black;background: rgb(222, 235, 246);padding: 0cm 5.75pt;height: 14.25pt;vertical-align: top;">
+                        <p style='margin:0cm;margin-bottom:1.0pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:1.0pt;margin-right:0cm;margin-left:0cm;text-align:center;'><strong><span style="font-size:17px;font-family:Avenir;">Sl.No.</span></strong></p>
+                    </td>
+                    <td style="width: 800pt;border-top: 1pt solid black;border-right: 1pt solid black;border-bottom: 1pt solid black;border-image: initial;border-left: none;background: rgb(222, 235, 246);padding: 0cm 5.75pt;height: 14.25pt;vertical-align: top;">
+                        <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;text-align:center;'><strong><span style="font-size:17px;font-family:Avenir;">Courses</span></strong></p>
+                    </td>
+                </tr>
+                <%  cnt = 1; %> 
+                <% for(let course of jnf.phdStudents) {%> 
+        
+                
+                        <tr>
+                    <td style="width: 269.35pt;border-right: 1pt solid black;border-bottom: 1pt solid black;border-left: 1pt solid black;border-image: initial;border-top: none;background: rgb(242, 242, 242);padding: 0cm 5.75pt;height: 15.55pt;vertical-align: top;">
+                        <p style='margin:0cm;margin-bottom:  1.0pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:1.0pt;margin-right:0cm;margin-left:0cm;text-align: center;'><span style="font-size:15px;font-family:Avenir;"><%= cnt %> </span></p>
+                    </td>
+                    <td style="width: 8cm;border-top: none;border-left: none;border-bottom: 1pt solid black;border-right: 1pt solid black;background: rgb(242, 242, 242);padding: 0cm 5.75pt;height: 15.55pt;vertical-align: top;">
+                        <p style='margin:0cm;margin-bottom:1.0pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:1.0pt;margin-right:0cm;margin-left:0cm;text-align:center;'><span style='font-size:15px;font-family:"MS Gothic";'><%= course %> </span></p>
+                    </td>
+                </tr>
+                <% cnt++; %> 
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+    
+    <% } %> 
+    
+
+
 <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;line-height:150%;'><strong><span style="font-family:Avenir;">&nbsp;</span></strong></p>
 <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;line-height:150%;'><strong><span style="font-family:Avenir;">&nbsp;</span></strong></p>
 <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-right:-30.65pt;text-align:center;'><strong><span style="font-size:19px;font-family:Avenir;">SELECTION PROCEDURE</span></strong></p>
@@ -388,7 +389,7 @@
                     <p style='margin:0cm;margin-bottom:  1.0pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:1.0pt;margin-right:0cm;margin-left:0cm;'><span style="font-family:Avenir;">Resume Shortlisting</span></p>
                 </td>
                 <td style="width: 271.8pt;border-top: 1pt solid black;border-right: 1pt solid black;border-bottom: 1pt solid black;border-image: initial;border-left: none;background: white;padding: 0cm 5.75pt;height: 23.6pt;vertical-align: top;">
-                    <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;text-align:center;'><span style="font-family:Avenir;"></span><span style='font-family:"MS Gothic";'><%=(inf.shortlistFromResumes?"Yes" : "No")%></p>
+                    <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;text-align:center;'><span style="font-family:Avenir;"></span><span style='font-family:"MS Gothic";'><%=(jnf.shortlistFromResumes?"Yes" : "No")%></p>
                     </td>
             </tr>
             <tr>
@@ -396,7 +397,7 @@
                     <p style='margin:0cm;margin-bottom:  1.0pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:1.0pt;margin-right:0cm;margin-left:0cm;'><span style="font-family:Avenir;">Type of Test</span></p>
                 </td>
                 <td style="width: 271.8pt;border-top: none;border-left: none;border-bottom: 1pt solid black;border-right: 1pt solid black;background: rgb(237, 237, 237);padding: 0cm 5.75pt;height: 25pt;vertical-align: top;">
-                    <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;text-align: center;'><strong><span style='font-size:15px;font-family:"Cambria","serif";color:#2F5496;'><%= inf.typeOfTest %> </span></strong></p>                
+                    <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;text-align: center;'><strong><span style='font-size:15px;font-family:"Cambria","serif";color:#2F5496;'><%= jnf.typeOfTest %> </span></strong></p>                
                 </td>
             </tr>
             <tr>
@@ -404,7 +405,7 @@
                     <p style='margin:0cm;margin-bottom:  1.0pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:1.0pt;margin-right:0cm;margin-left:0cm;'><span style="font-family:Avenir;">Other Qualification Rounds&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span></p>
                 </td>
                 <td style="width: 271.8pt;border-top: none;border-left: none;border-bottom: 1pt solid black;border-right: 1pt solid black;background: white;padding: 0cm 5.75pt;height: 20.6pt;vertical-align: top;">
-                    <%   for(let round of inf.otherRounds) { %>
+                    <%   for(let round of jnf.otherRounds) { %>
                         <p style='margin:0cm;margin-bottom:.0001pt;font-size:16px;font-family:"Times New Roman","serif";color:black;text-align: center;'><strong><span style='font-size:15px;font-family:"Cambria","serif";color:#2F5496;'><%= round %> </span></strong></p>                
                         <% } %> 
                 </td>
@@ -414,7 +415,7 @@
                     <p style='margin:0cm;margin-bottom:  1.0pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:1.0pt;margin-right:0cm;margin-left:0cm;'><span style="font-family:Avenir;">Total number of rounds</span></p>
                 </td>
                 <td style="width: 271.8pt;border-top: none;border-left: none;border-bottom: 1pt solid black;border-right: 1pt solid black;background: rgb(237, 237, 237);padding: 0cm 5.75pt;height: 31.75pt;vertical-align: top;">
-                    <p style='margin:0cm;margin-bottom:  .5pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:.5pt;margin-right:0cm;margin-left:0cm;text-align: center;'><span style="font-family:Avenir;"><%= inf.totalRounds %> </span></p>
+                    <p style='margin:0cm;margin-bottom:  .5pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:.5pt;margin-right:0cm;margin-left:0cm;text-align: center;'><span style="font-family:Avenir;"><%= jnf.totalRounds %> </span></p>
                 </td>
             </tr>
             <tr>
@@ -422,7 +423,7 @@
                     <p style='margin:0cm;margin-bottom:  1.0pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:1.0pt;margin-right:0cm;margin-left:0cm;'><span style="font-family:Avenir;">Number of offers available for IIT(ISM) students (Range would be sufficient)</span></p>
                 </td>
                 <td style="width: 271.8pt;border-top: none;border-left: none;border-bottom: 1pt solid black;border-right: 1pt solid black;background: white;padding: 0cm 5.75pt;height: 45.8pt;vertical-align: top;">
-                    <p style='margin:0cm;margin-bottom:  .5pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:.5pt;margin-right:0cm;margin-left:0cm; text-align: center;'><span style="font-family:Avenir;"><%= inf.numberOfOffers %> </span></p>
+                    <p style='margin:0cm;margin-bottom:  .5pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:.5pt;margin-right:0cm;margin-left:0cm; text-align: center;'><span style="font-family:Avenir;"><%= jnf.numberOfOffers %> </span></p>
                 </td>
             </tr>
             <tr>
@@ -430,7 +431,7 @@
                     <p style='margin:0cm;margin-bottom:  1.0pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:1.0pt;margin-right:0cm;margin-left:0cm;'><span style="font-family:Avenir;">Eligibility Criteria (if any)</span></p>
                 </td>
                 <td style="width: 271.8pt;border-top: none;border-left: none;border-bottom: 1pt solid black;border-right: 1pt solid black;background: rgb(237, 237, 237);padding: 0cm 5.75pt;height: 49.45pt;vertical-align: top;">
-                    <p style='margin:0cm;margin-bottom:  .5pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:.5pt;margin-right:0cm;margin-left:0cm;text-align: center;'><span style="font-family:Avenir;"><%= inf.eligibilityCriteria %> </span></p>
+                    <p style='margin:0cm;margin-bottom:  .5pt;font-size:16px;font-family:"Times New Roman","serif";color:black;margin-top:.5pt;margin-right:0cm;margin-left:0cm;text-align: center;'><span style="font-family:Avenir;"><%= jnf.eligibilityCriteria %> </span></p>
                 </td>
             </tr>
         </tbody>
