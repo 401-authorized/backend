@@ -11,7 +11,7 @@
       "node_modules/*",
       "public/*"
     ]
-},
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
