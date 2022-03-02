@@ -15,9 +15,11 @@ router.put("/", auth.authenticate, auth.verifyAdmin, async (req, res) => {
     res.status(e.code).json(e);
   }
 });
+
 router.get("/", auth.authenticate, auth.verifyAdmin, async (req, res) => {
   try {
-    const result = Grad.findOne({});
+    let result = await Grad.find({});
+    result=result[0];
     res.send(result);
   } catch (err) {
     const e = IndulgeExceptionHandler(err);

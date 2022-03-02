@@ -1,12 +1,39 @@
 const router = require("express").Router();
+const multer = require("multer");
 const IndulgeExceptionHandler = require("../core/IndulgeExceptionHandler");
 const IndulgeResourceNotFoundException = require("../exceptions/IndulgeResourceNotFoundException");
 const IndulgeUnauthorisedException = require("../exceptions/indulgeUnauthorisedException");
 const { QueryBuilder } = require("../helpers/query-builder.class");
 const INF = require("../models/inf.model");
+const Grad = require("../models/graduationYear.model");
 const auth = require("../utils/auth");
 const { templates } = require("../utils/templates");
 const { sendMail } = require("../utils/mail");
+
+const storage=multer.diskStorage({
+  destination: function(request, file, callback){
+    callback(null, './public');
+  },
+  filename:function(request, file, callback){
+    callback(null, file.originalname+Date.now());
+  }
+})
+
+const upload=multer({
+  storage, 
+  limits :{
+    fieldSize: 1024*1024*20
+  }
+})
+
+router.get('/download/:id', async(req, res)=>{
+  const {id}=req.params;
+  const inf= await INF.findById(id).populate('companyId').populate('hrId');
+  let result = await Grad.find({});
+  result=result[0];
+  console.log(result);
+  res.render('inf.ejs', {inf, result});
+})
 
 // Example use case for QUeryBuilder class for using sort, limit, filter and paginate
 router.get("/", auth.authenticate, async (req, res) => {
@@ -42,12 +69,20 @@ router.get("/", auth.authenticate, async (req, res) => {
   }
 });
 
-router.post("/", auth.authenticate, async (req, res) => {
+router.post("/", auth.authenticate, upload.array('documents', 5), async (req, res) => {
   try {
     let newInf = new INF(req.body);
     newInf.hrId = req.user._id;
     console.log(req.user);
     newInf.companyId = req.user.companyId;
+    let documents = [];
+    for(let x of req.files )
+    {
+      const fileName= x.filename;
+      const file = `${process.env.FILE_URL}/${fileName}`;  
+      documents.push(file);
+    }
+    newInf.documents = documents;
     await newInf.save();
     // console.log(template);
     const url = `${process.env.BASE_URL}inf/${newInf._id}`;

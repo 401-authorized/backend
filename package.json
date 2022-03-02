@@ -6,6 +6,12 @@
   "scripts": {
     "dev": "env-cmd -f config/environment/.env nodemon server.js"
   },
+  "nodemonConfig": {
+    "ignore": [
+      "node_modules/*",
+      "public/*"
+    ]
+},
   "author": "",
   "license": "ISC",
   "dependencies": {
