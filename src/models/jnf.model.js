@@ -10,6 +10,9 @@ const jnfSchema = new Schema({
     type: String,
     required: true,
   },
+  graduationYear: {
+    type: String,
+  },
   companyId: {
     type: Schema.Types.ObjectId,
     required:true,

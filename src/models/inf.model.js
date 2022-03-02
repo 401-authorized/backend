@@ -10,6 +10,9 @@ const infSchema = new Schema({
     type: String,
     required: true,
   },
+  graduationYear: {
+    type: String,
+  },
   companyId: {
     type: Schema.Types.ObjectId,
     ref: "Company",
