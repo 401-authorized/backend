@@ -27,8 +27,11 @@ router.get("/inf/:id", authenticate, async (req, res) => {
     const pdfTemplate = new PdfTemplate("inf", { inf, result });
     const infPage = await pdfTemplate.getPdfTemplate();
     const pdf = await generatePdf(infPage);
-    res.writeHead(200, [["Content-Type", "application/pdf"]]);
-    res.end(new Buffer(pdf, "base64"));
+    res.set({
+      "Content-Type": "application/pdf",
+      "Content-Length": pdf.length,
+    });
+    res.send(pdf);
   } catch (err) {
     console.log(err);
     const E = IndulgeExceptionHandler(err);
