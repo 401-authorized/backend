@@ -10,21 +10,21 @@ const auth = require("../utils/auth");
 const { templates } = require("../utils/templates");
 const { sendMail } = require("../utils/mail");
 
-const storage=multer.diskStorage({
-  destination: function(request, file, callback){
-    callback(null, './public');
+const storage = multer.diskStorage({
+  destination: function (request, file, callback) {
+    callback(null, "./public");
   },
-  filename:function(request, file, callback){
-    callback(null, file.originalname+Date.now());
-  }
-})
+  filename: function (request, file, callback) {
+    callback(null, Date.now() + "_" + file.originalname);
+  },
+});
 
-const upload=multer({
-  storage, 
-  limits :{
-    fieldSize: 1024*1024*20
-  }
-})
+const upload = multer({
+  storage,
+  limits: {
+    fieldSize: 1024 * 1024 * 20,
+  },
+});
 
 // Example use case for QUeryBuilder class for using sort, limit, filter and paginate
 router.get("/", auth.authenticate, async (req, res) => {
@@ -60,34 +60,38 @@ router.get("/", auth.authenticate, async (req, res) => {
   }
 });
 
-router.post("/", auth.authenticate, upload.array('documents', 5), async (req, res) => {
-  try {
-    let newInf = new INF(req.body);
-    newInf.hrId = req.user._id;
-    console.log(req.user);
-    newInf.companyId = req.user.companyId;
-    let documents = [];
-    for(let x of req.files )
-    {
-      const fileName= x.filename;
-      const file = `${process.env.FILE_URL}/${fileName}`;  
-      documents.push(file);
+router.post(
+  "/",
+  auth.authenticate,
+  upload.array("documents", 5),
+  async (req, res) => {
+    try {
+      let newInf = new INF(req.body);
+      newInf.hrId = req.user._id;
+      console.log(req.user);
+      newInf.companyId = req.user.companyId;
+      let documents = [];
+      for (let x of req.files) {
+        const fileName = x.filename;
+        const file = `${process.env.FILE_URL}/${fileName}`;
+        documents.push(file);
+      }
+      newInf.documents = documents;
+      await newInf.save();
+      // console.log(template);
+      const url = `${process.env.BASE_URL}inf/${newInf._id}`;
+      await sendMail(
+        templates.INFSEND,
+        { hrName: `${req.user.name}`, infUrl: url },
+        "tanwirahmad2912@gmail.com"
+      );
+      res.json(newInf);
+    } catch (err) {
+      const e = IndulgeExceptionHandler(err);
+      res.status(e.code).json(e);
     }
-    newInf.documents = documents;
-    await newInf.save();
-    // console.log(template);
-    const url = `${process.env.BASE_URL}inf/${newInf._id}`;
-    await sendMail(
-      templates.INFSEND,
-      { hrName: `${req.user.name}`, infUrl: url },
-      "tanwirahmad2912@gmail.com"
-    );
-    res.json(newInf);
-  } catch (err) {
-    const e = IndulgeExceptionHandler(err);
-    res.status(e.code).json(e);
   }
-});
+);
 
 router.put("/:id", auth.authenticate, async (req, res) => {
   try {

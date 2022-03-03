@@ -8,23 +8,21 @@ const { templates } = require("../utils/templates");
 const { sendMail } = require("../utils/mail");
 const multer = require("multer");
 
-
-const storage=multer.diskStorage({
-  destination: function(request, file, callback){
-    callback(null, './public');
+const storage = multer.diskStorage({
+  destination: function (request, file, callback) {
+    callback(null, "./public");
   },
-  filename:function(request, file, callback){
-    callback(null, file.originalname+Date.now());
-  }
-})
+  filename: function (request, file, callback) {
+    callback(null, Date.now() + "_" + file.originalname);
+  },
+});
 
-const upload=multer({
-  storage, 
-  limits :{
-    fieldSize: 1024*1024*20
-  }
-})
-
+const upload = multer({
+  storage,
+  limits: {
+    fieldSize: 1024 * 1024 * 20,
+  },
+});
 
 router.get("/", auth.authenticate, async (req, res) => {
   try {
@@ -59,33 +57,36 @@ router.get("/", auth.authenticate, async (req, res) => {
   }
 });
 
-
-router.post("/", auth.authenticate, upload.array('documents',5), async (req, res) => {
-  try {
-    let newJnf = new JNF(req.body);
-    newJnf.hrId = req.user._id;
-    newJnf.companyId = req.user.companyId;
-    let documents = [];
-    for(let x of req.files )
-    {
-      const fileName= x.filename;
-      const file = `${process.env.FILE_URL}/${fileName}`;  
-      documents.push(file);
+router.post(
+  "/",
+  auth.authenticate,
+  upload.array("documents", 5),
+  async (req, res) => {
+    try {
+      let newJnf = new JNF(req.body);
+      newJnf.hrId = req.user._id;
+      newJnf.companyId = req.user.companyId;
+      let documents = [];
+      for (let x of req.files) {
+        const fileName = x.filename;
+        const file = `${process.env.FILE_URL}/${fileName}`;
+        documents.push(file);
+      }
+      newJnf.documents = documents;
+      await newJnf.save();
+      const url = `${process.env.BASE_URL}jnf/${newJnf._id}`;
+      await sendMail(
+        templates.JNFSEND,
+        { hrName: `${req.user.name}`, jnfUrl: url },
+        "tanwirahmad2912@gmail.com"
+      );
+      res.json(newJnf);
+    } catch (err) {
+      const e = IndulgeExceptionHandler(err);
+      res.status(e.code).json(e);
     }
-    newJnf.documents = documents;
-    await newJnf.save();
-    const url = `${process.env.BASE_URL}jnf/${newJnf._id}`;
-    await sendMail(
-      templates.JNFSEND,
-      { hrName: `${req.user.name}`, jnfUrl: url },
-      "tanwirahmad2912@gmail.com"
-    );
-    res.json(newJnf);
-  } catch (err) {
-    const e = IndulgeExceptionHandler(err);
-    res.status(e.code).json(e);
   }
-});
+);
 router.put("/:id", auth.authenticate, async (req, res) => {
   try {
     const { id } = req.params;
